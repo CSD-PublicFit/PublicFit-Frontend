@@ -1,46 +1,24 @@
 import styled from "styled-components";
-import { useState } from "react";
-import photo from "../assets/map.png";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #e6eaf5;
-  justify-content: center;
-  align-items: center;
-`;
+const containerStyle = {
+  width: "100%",
+};
 
-const Title = styled.p`
-  color: #545454;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: "Gothic A1";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 22px;
-  margin-left: 40px;
-  margin-top: 30px;
-`;
-
-const Image = styled.img`
-  margin-left: 50px;
-  margin-top: 30px;
-  margin-right: 100px;
-  margin-bottom: 80px;
-`;
+const center = {
+  lat: 37.5665, // 서울 위도
+  lng: 126.978, // 서울 경도
+};
 
 const MapView = () => {
-  const [title, setTitle] = useState("현재 현황 위치"); // 나중에
-
   return (
-    <Container>
-      <div>
-        <Title>현재 현황 위치:</Title>
-      </div>
-      <div>
-        <Image src={photo} alt="설명 텍스트" width="700" height="500"></Image>
-      </div>
-    </Container>
+    <>
+      <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={13}>
+          {/* 마커, 폴리곤 등 지도 위 요소는 여기에 */}
+        </GoogleMap>
+      </LoadScript>
+    </>
   );
 };
 
