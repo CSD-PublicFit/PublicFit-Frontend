@@ -13,7 +13,12 @@ const ContentBox = styled.div`
   text-align: center;
 `;
 
-const StepContentPage = ({ currentStep, setIsStepCompleted, navigate }) => {
+const StepContentPage = ({
+  currentStep,
+  isStepCompleted,
+  setIsStepCompleted,
+  navigate,
+}) => {
   // Step1
   const [selectedData, setSelectedData] = useState("basic"); // 데이터 종류에 따른 화면 전환에 필요
   const [basicFileInfo, setBasicFileInfo] = useState(null); // 기본 데이터 파일
@@ -60,6 +65,8 @@ const StepContentPage = ({ currentStep, setIsStepCompleted, navigate }) => {
           basicFileInfo={basicFileInfo}
           plusFileInfo={plusFileInfo}
           selectedRange={selectedRange}
+          isStepCompleted={isStepCompleted}
+          setIsStepCompleted={setIsStepCompleted}
         />
       )}
       {currentStep === 4 && <Step4 />}

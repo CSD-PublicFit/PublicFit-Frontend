@@ -3,6 +3,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 
+import { MapDataProvider } from "./context/MapDataProvider.jsx";
+
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -21,13 +23,15 @@ import HomePage from "./pages/HomePage.jsx";
 import ReportPage from "./pages/ReportPage.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <StrictMode>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/report" element={<ReportPage />} />
-      </Routes>
-    </StrictMode>
-  </BrowserRouter>
+  <MapDataProvider>
+    <BrowserRouter>
+      <StrictMode>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/report" element={<ReportPage />} />
+        </Routes>
+      </StrictMode>
+    </BrowserRouter>
+  </MapDataProvider>
 );

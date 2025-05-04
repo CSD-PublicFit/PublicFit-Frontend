@@ -13,10 +13,12 @@ const NumberButton = styled.button`
   font-weight: 600;
   border-radius: 50%;
   cursor: pointer;
-  color: ${({ isSelected, isCompleted, nameColor }) =>
-    isSelected || isCompleted ? nameColor : "#ADADAD"};
-  border: ${({ isSelected, isCompleted, nameColor }) =>
-    isSelected || isCompleted ? `4px solid ${nameColor}` : "4px solid #ADADAD"};
+  color: ${({ isSelected, $isCompleted, nameColor }) =>
+    isSelected || $isCompleted ? nameColor : "#ADADAD"};
+  border: ${({ isSelected, $isCompleted, nameColor }) =>
+    isSelected || $isCompleted
+      ? `4px solid ${nameColor}`
+      : "4px solid #ADADAD"};
 
   &:hover {
     border: 4px solid ${({ nameColor }) => nameColor || "#3B82F6"};
@@ -34,10 +36,9 @@ const StepNumberButton = ({ currentStep, isStepCompleted, setCurrentStep }) => {
           key={step}
           nameColor="#6082F0"
           isSelected={currentStep === step}
-          isCompleted={isStepCompleted.includes(step)}
-          onClick={() => setCurrentStep(step)}
+          $isCompleted={isStepCompleted.includes(step)}
         >
-          {isStepCompleted.includes(step) ? "✓" : step}
+          {step}
         </NumberButton>
       ))}
     </ButtonContainer>

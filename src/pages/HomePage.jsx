@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import TopTitle from "../components/TopTitle";
 import StepPage from "./StepPage";
 import MapView from "../components/MapView";
-import Button from "../components/Button";
 
 const Container = styled.div`
   display: flex;
@@ -15,8 +13,6 @@ const TopLine = styled.hr`
 `;
 
 const HomePage = () => {
-  const navigate = useNavigate();
-
   return (
     <div>
       <TopTitle></TopTitle>

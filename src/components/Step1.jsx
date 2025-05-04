@@ -66,7 +66,7 @@ const Step1 = ({
       const hasStep1 = prev.includes(1);
 
       if (isValid && !hasStep1) {
-        console.log("Step1이 완료되었습니다.");
+        console.log("✅ Step1 완료");
         return [...prev, 1]; // ✅ 조건 만족 → 추가
       } else if (!isValid && hasStep1) {
         console.log("Step1이 완료되지 않았습니다.");
