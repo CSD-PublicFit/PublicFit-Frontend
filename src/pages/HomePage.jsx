@@ -1,13 +1,26 @@
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import TopTitle from "../components/TopTitle";
+import StepPage from "./StepPage";
+import MapView from "../components/MapView";
+
+const Container = styled.div`
+  display: flex;
+`;
+const TopLine = styled.hr`
+  background-color: #545454;
+  height: 4px;
+  border: none;
+`;
 
 const HomePage = () => {
-  const navigate = useNavigate();
-
   return (
     <div>
-      <h1>홈페이지</h1>
-      <p>이곳은 초기 설정된 홈페이지입니다.</p>
-      <button onClick={() => navigate("/report")}>Report 페이지로 이동</button>
+      <TopTitle></TopTitle>
+      <TopLine></TopLine>
+      <Container>
+        <MapView></MapView>
+        <StepPage></StepPage>
+      </Container>
     </div>
   );
 };
