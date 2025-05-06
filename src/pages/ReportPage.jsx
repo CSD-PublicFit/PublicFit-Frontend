@@ -6,20 +6,43 @@ import RightPanel from "../components/RightPanel";
 
 export default function ReportPage() {
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
 
-  const handleGenerateReport = () => {
+
+  const handleGenerateReport = async () => {
     setLoading(true);
-    setTimeout(() => {
+  
+    try {
+      const response = await fetch("http://localhost:3001/report/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+  
+      if (!response.ok) throw new Error("리포트 생성 실패");
+  
+      // PDF 응답을 blob으로 받기
+      const blob = await response.blob();
+      const pdfUrl = URL.createObjectURL(blob);
+      
+      setResult(pdfUrl);
+  
+    } catch (error) {
+      console.error("Error generating report:", error);
+      alert("리포트 생성 중 오류가 발생했습니다.");
+    } finally {
       setLoading(false);
-    }, 3000);
+    }
   };
+
 
   return (
     <div className="report-page">
       <ReportHeader />
       <div className="content">
         <LeftPanel />
-        <RightPanel loading={loading} onGenerate={handleGenerateReport} />
+        <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>
     </div>
   );
