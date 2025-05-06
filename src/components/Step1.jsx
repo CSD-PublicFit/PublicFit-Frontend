@@ -18,6 +18,8 @@ const NoticeTitle = styled.p`
 const ButtonContainer = styled.div`
   display: flex;
   gap: 15px; /* 버튼 간 간격 */
+  margin-top: 15px;
+  margin-left: 10px;
 `;
 
 const ToggleButton = styled.button`
@@ -26,21 +28,39 @@ const ToggleButton = styled.button`
   font-weight: 700;
   border-radius: 100px;
   cursor: pointer;
-  background-color: ${({ bgColor }) => bgColor || "#F0F0F0"};
-  color: ${({ isSelected, nameColor }) => (isSelected ? nameColor : "#A0A0A0")};
-  border: ${({ isSelected, nameColor }) =>
-    isSelected
-      ? `3px solid ${nameColor || "#3B82F6"}`
+  background-color: ${({ $bgColor }) => $bgColor || "#F0F0F0"};
+  color: ${({ $isSelected, $nameColor }) =>
+    $isSelected ? $nameColor : "#A0A0A0"};
+  border: ${({ $isSelected, $nameColor }) =>
+    $isSelected
+      ? `3px solid ${$nameColor || "#3B82F6"}`
       : "3px solid transparent"};
 
   &:hover {
-    border: 3px solid ${({ nameColor }) => nameColor || "#3B82F6"};
+    border: 3px solid ${({ $nameColor }) => $nameColor || "#3B82F6"};
   }
 `;
 
 const ContextBox = styled.div`
   border: 3px solid #6082f0;
   border-radius: 20px;
+  margin-top: 15px;
+`;
+
+const SemiTitle = styled.p`
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+
+const Explain = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  margin-left: 20px;
+  margin-bottom: 5px;
 `;
 
 const Step1 = ({
@@ -84,17 +104,17 @@ const Step1 = ({
       </TitleContainer>
       <ButtonContainer>
         <ToggleButton
-          nameColor="#6082F0"
-          bgColor="#E6EAF5"
-          isSelected={selectedData === "basic"}
+          $nameColor="#6082F0"
+          $bgColor="#E6EAF5"
+          $isSelected={selectedData === "basic"}
           onClick={() => setSelectedData("basic")}
         >
           기본 데이터
         </ToggleButton>
         <ToggleButton
-          nameColor="#6082F0"
-          bgColor="#E6EAF5"
-          isSelected={selectedData === "plus"}
+          $nameColor="#6082F0"
+          $bgColor="#E6EAF5"
+          $isSelected={selectedData === "plus"}
           onClick={() => setSelectedData("plus")}
         >
           중요 변수 데이터
@@ -102,9 +122,9 @@ const Step1 = ({
       </ButtonContainer>
       <ContextBox>
         <div style={{ display: selectedData === "basic" ? "block" : "none" }}>
-          <p>기본 데이터 파일 첨부(필수)</p>
-          <p>분석할 공공시설물의 데이터를 넣어주세요.</p>
-          <p>.csv 파일만 허용합니다.</p>
+          <SemiTitle>기본 데이터 파일 첨부(필수)</SemiTitle>
+          <Explain>분석할 공공시설물의 데이터를 넣어주세요.</Explain>
+          <Explain>.csv 파일만 허용합니다.</Explain>
           <FileUploader
             category={selectedData}
             fileInfo={basicFileInfo}
@@ -114,9 +134,11 @@ const Step1 = ({
           />
         </div>
         <div style={{ display: selectedData === "plus" ? "block" : "none" }}>
-          <p>중요 변수 데이터 파일 첨부(선택)</p>
-          <p>분석할 공공시설물과 관련된 중요 변수 데이터를 넣어주세요.</p>
-          <p>.csv 파일만 허용합니다.</p>
+          <SemiTitle>중요 변수 데이터 파일 첨부(선택)</SemiTitle>
+          <Explain>
+            분석할 공공시설물과 관련된 중요 변수 데이터를 넣어주세요.
+          </Explain>
+          <Explain>.csv 파일만 허용합니다.</Explain>
           <FileUploader
             category={selectedData}
             fileInfo={plusFileInfo}

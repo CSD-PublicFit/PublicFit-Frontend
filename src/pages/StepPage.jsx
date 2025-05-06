@@ -7,16 +7,16 @@ import StepContentPage from "./StepContentPage";
 import StepPageWrapper from "../components/StepPageWrapper";
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 50vw;
   background-color: #f1f5f8;
   justify-content: center;
   align-items: center;
 `;
 
 const SelectText = styled.p`
-  font-size: 35px;
+  font-size: 25px;
   font-weight: 500;
+  margin-left: 15px;
 `;
 
 const StepPage = () => {

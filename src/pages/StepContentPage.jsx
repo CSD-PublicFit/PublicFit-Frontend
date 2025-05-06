@@ -10,7 +10,7 @@ import Step4 from "../components/Step4";
 
 const ContentBox = styled.div`
   margin-top: 30px;
-  text-align: center;
+  margin-left: 15px;
 `;
 
 const StepContentPage = ({

@@ -3,26 +3,23 @@ import styled from "styled-components";
 const ButtonContainer = styled.div`
   display: flex;
   gap: 15px;
+  margin-left: 15px;
+  margin-top: 10px;
 `;
 
 const NumberButton = styled.button`
-  width: 50px;
-  height: 50px;
-  padding: 4px 10px;
-  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  padding: 2.5px 8px;
+  font-size: 25px;
   font-weight: 600;
   border-radius: 50%;
-  cursor: pointer;
-  color: ${({ isSelected, $isCompleted, nameColor }) =>
-    isSelected || $isCompleted ? nameColor : "#ADADAD"};
-  border: ${({ isSelected, $isCompleted, nameColor }) =>
-    isSelected || $isCompleted
-      ? `4px solid ${nameColor}`
+  color: ${({ $isSelected, $isCompleted, $nameColor }) =>
+    $isSelected || $isCompleted ? $nameColor : "#ADADAD"};
+  border: ${({ $isSelected, $isCompleted, $nameColor }) =>
+    $isSelected || $isCompleted
+      ? `4px solid ${$nameColor}`
       : "4px solid #ADADAD"};
-
-  &:hover {
-    border: 4px solid ${({ nameColor }) => nameColor || "#3B82F6"};
-  }
 `;
 
 const StepNumberButton = ({ currentStep, isStepCompleted, setCurrentStep }) => {
@@ -34,8 +31,8 @@ const StepNumberButton = ({ currentStep, isStepCompleted, setCurrentStep }) => {
       {steps.map((step) => (
         <NumberButton
           key={step}
-          nameColor="#6082F0"
-          isSelected={currentStep === step}
+          $nameColor="#6082F0"
+          $isSelected={currentStep === step}
           $isCompleted={isStepCompleted.includes(step)}
         >
           {step}

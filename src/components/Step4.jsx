@@ -8,9 +8,14 @@ const TitleContainer = styled.div`
 
 const NoticeTitle = styled.p`
   color: #666666;
-  display: block;
   margin-top: 17px;
   font-size: 15px;
+`;
+
+const ReportButtonContainer = styled.div`
+  justify-content: center;
+  align-items: center;
+  padding: 20px 85px;
 `;
 
 const ReportButton = styled.button`
@@ -19,7 +24,7 @@ const ReportButton = styled.button`
   font-weight: 500;
   color: #008c25;
   cursor: pointer;
-  border-radius: 100px;
+  border-radius: 10px;
   border: transparent;
   background-color: #e7f5e6;
   &:hover {
@@ -36,9 +41,11 @@ const Step4 = () => {
         <h2 style={{ fontSize: "30px", fontWeight: "700" }}>Step 4.</h2>
         <NoticeTitle>분석결과를 레포트로 만들어보세요.</NoticeTitle>
       </TitleContainer>
-      <ReportButton onClick={() => navigate("/report")}>
-        결과 레포트 확인 / 저장
-      </ReportButton>
+      <ReportButtonContainer>
+        <ReportButton onClick={() => navigate("/report")}>
+          결과 레포트 확인 / 저장
+        </ReportButton>
+      </ReportButtonContainer>
     </>
   );
 };

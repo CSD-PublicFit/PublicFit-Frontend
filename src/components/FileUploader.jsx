@@ -6,15 +6,18 @@ import warnRed from "../assets/warnRed.png";
 import closeButton from "../assets/CloseButton.png";
 
 const FileButton = styled.button`
-  width: 100px;
+  width: 80px;
   height: 40px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
   color: #ffffff;
   cursor: pointer;
   border-radius: 5px;
   border: transparent;
   background-color: #6082f0;
+  margin-left: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 const FileNameContainer = styled.div`
@@ -30,6 +33,8 @@ const FileNameContainer = styled.div`
     $status === "valid" ? "2px solid #6082f0" : "2px solid #F06062"};
   width: fit-content; /* ✅ 자식 내용 크기만큼 너비 설정 */
   padding: 2px 7px; /* ✅ 약간의 여백 주는 게 자연스러움 */
+  margin-left: 20px;
+  margin-bottom: 15px;
 `;
 
 const FileName = styled.p`
@@ -148,7 +153,7 @@ function FileUploader({
   };
 
   return (
-    <div>
+    <>
       <FileButton onClick={handleButtonClick}>파일 선택</FileButton>
       <input
         type="file"
@@ -157,7 +162,18 @@ function FileUploader({
         onChange={handleUpload}
         style={{ display: "none" }}
       />
-      {validationStatus === "checking" && <p>형식 확인 중...</p>}
+      {validationStatus === "checking" && (
+        <p
+          style={{
+            fontSize: "15px",
+            color: "#666666",
+            marginLeft: "20px",
+            marginBottom: "10px",
+          }}
+        >
+          형식 확인 중...
+        </p>
+      )}
       {(validationStatus === "valid" || validationStatus === "invalid") && (
         <FileNameContainer $status={validationStatus}>
           <FileName $status={validationStatus}>{fileInfo.name}</FileName>
@@ -169,7 +185,7 @@ function FileUploader({
           <CloseButton onClick={handleFileDelete}></CloseButton>
         </FileNameContainer>
       )}
-    </div>
+    </>
   );
 }
 

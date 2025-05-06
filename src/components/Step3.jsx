@@ -22,12 +22,14 @@ const ContextBox = styled.div`
   border: 3px solid
     ${({ $isCompleted }) => ($isCompleted ? "#008C25" : "#6082f0")};
   border-radius: 20px;
+  margin-top: 20px;
+  padding: 20px 5px;
 `;
 
 const AnalyzeButton = styled.button`
-  width: 100px;
+  width: 80px;
   height: 40px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
   color: #ffffff;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -35,6 +37,8 @@ const AnalyzeButton = styled.button`
   border: transparent;
   background-color: ${({ $isCompleted }) =>
     $isCompleted ? "#008C25" : "#6082f0"};
+  margin-left: 15px;
+  margin-top: 10px;
 `;
 
 const FileNameContainer = styled.div`
@@ -49,10 +53,20 @@ const FileNameContainer = styled.div`
   border: 2px solid #6082f0;
   width: fit-content; /* ✅ 자식 내용 크기만큼 너비 설정 */
   padding: 2px 7px; /* ✅ 약간의 여백 주는 게 자연스러움 */
+  margin-left: 10px;
 `;
 
 const FlexContainer = styled.div`
   display: flex;
+  margin-bottom: 10px;
+`;
+
+const Explain = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  margin-left: 20px;
+  margin-bottom: 5px;
 `;
 
 const Step3 = ({
@@ -106,19 +120,25 @@ const Step3 = ({
 
       <ContextBox $isCompleted={step3Completed}>
         <FlexContainer>
-          <p>기본 데이터 :</p>
+          <Explain>기본 데이터 :</Explain>
           <FileNameContainer>{basicFileInfo.name}</FileNameContainer>
         </FlexContainer>
         <FlexContainer>
-          <p>중요 변수 데이터 : </p>
+          <Explain>중요 변수 데이터 : </Explain>
           {plusFileInfo ? (
             <FileNameContainer>{plusFileInfo.name}</FileNameContainer>
           ) : (
-            <p>없음</p>
+            <Explain>없음</Explain>
           )}
         </FlexContainer>
-        <p>분석 상권 범위 : {selectedRange}</p>
-        <hr></hr>
+        <Explain>분석 상권 범위 : {selectedRange}</Explain>
+        <hr
+          style={{
+            height: "2px",
+            backgroundColor: "#666666",
+            marginTop: "15px",
+          }}
+        ></hr>
         <AnalyzeButton
           $isCompleted={step3Completed}
           disabled={step3Completed}
