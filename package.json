@@ -11,14 +11,14 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^6.30.0",
-    "styled-components": "^6.1.17"
     "@react-pdf/renderer": "^4.3.0",
     "pdf-dist": "^1.0.0",
     "pdfjs-dist": "^5.2.133",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-pdf": "^9.2.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.17"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
