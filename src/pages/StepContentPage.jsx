@@ -65,6 +65,7 @@ const StepContentPage = ({
           basicFileInfo={basicFileInfo}
           plusFileInfo={plusFileInfo}
           selectedRange={selectedRange}
+          selectedCity={selectedCity}
           isStepCompleted={isStepCompleted}
           setIsStepCompleted={setIsStepCompleted}
         />

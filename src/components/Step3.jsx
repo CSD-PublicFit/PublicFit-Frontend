@@ -74,6 +74,7 @@ const Step3 = ({
   basicFileInfo,
   plusFileInfo,
   selectedRange,
+  selectedCity, //api 연결때 쓰여용
   isStepCompleted,
   setIsStepCompleted,
 }) => {
@@ -88,6 +89,7 @@ const Step3 = ({
         basicFileInfo: basicFileInfo,
         plusFileInfo: plusFileInfo, 
         selectedRange: selectedRange,
+        selectedCity: selectedCity,
       });  -> api 연결용 */
       const { regionCoordinates, existingLocations, predictedLocations } =
         mockAnalysisResult; // 목업데이터
