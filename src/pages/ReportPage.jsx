@@ -1,8 +1,15 @@
+import styled from "styled-components";
 import React, { useState } from "react";
 import "../CSS/ReportPage.css";
-import ReportHeader from "../components/ReportHeader";
 import LeftPanel from "../components/LeftPanel";
 import RightPanel from "../components/RightPanel";
+import TopTitle from "../components/TopTitle"
+
+const TopLine = styled.hr`
+  background-color: #545454;
+  height: 4px;
+  border: none;
+`;
 
 export default function ReportPage() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +46,8 @@ export default function ReportPage() {
 
   return (
     <div className="report-page">
-      <ReportHeader />
+      <TopTitle />
+      <TopLine />
       <div className="content">
         <LeftPanel />
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>

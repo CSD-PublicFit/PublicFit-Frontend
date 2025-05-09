@@ -14,7 +14,12 @@ export default function RightPanel({ loading, onGenerate, result }) {
   };
 
   const handleDownload = () => {
-
+    const link = document.createElement("a");
+    link.href = result;
+    link.download = "report.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
   
   return (

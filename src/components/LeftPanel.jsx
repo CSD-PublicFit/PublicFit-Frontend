@@ -1,9 +1,13 @@
 import React from "react";
 
 export default function LeftPanel() {
+  const handleBack = () => {
+    history.back(); // 브라우저 뒤로 가기
+  };
+
   return (
     <div className="left-panel">
-      <button className="back-button">← 이전페이지</button>
+      <button className="back-button" onClick={handleBack}>← 이전페이지</button>
       <p className="description">
         다음의 데이터들로 <span className="highlight">분석 결과 레포트</span>를 생성합니다.
       </p>
