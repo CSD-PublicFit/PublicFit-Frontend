@@ -1,16 +1,57 @@
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import React, { useState } from "react";
+import "../CSS/ReportPage.css";
+import LeftPanel from "../components/LeftPanel";
+import RightPanel from "../components/RightPanel";
+import TopTitle from "../components/TopTitle"
 
-const ReportPage = () => {
-  const navigate = useNavigate(); // 네비게이션 훅 사용
+const TopLine = styled.hr`
+  background-color: #545454;
+  height: 4px;
+  border: none;
+`;
+
+export default function ReportPage() {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+
+
+  const handleGenerateReport = async () => {
+    setLoading(true);
+  
+    try {
+      const response = await fetch("http://localhost:3001/report/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+  
+      if (!response.ok) throw new Error("리포트 생성 실패");
+  
+      // PDF 응답을 blob으로 받기
+      const blob = await response.blob();
+      const pdfUrl = URL.createObjectURL(blob);
+      
+      setResult(pdfUrl);
+  
+    } catch (error) {
+      console.error("Error generating report:", error);
+      alert("리포트 생성 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
-    <div>
-      <h1>리포트 페이지</h1>
-      <p>이곳은 리포트 페이지입니다.</p>
-      {/* 뒤로 가기 버튼 추가 */}
-      <button onClick={() => navigate("/")}>뒤로 가기</button>
+    <div className="report-page">
+      <TopTitle />
+      <TopLine />
+      <div className="content">
+        <LeftPanel />
+        <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
+      </div>
     </div>
   );
-};
-
-export default ReportPage;
+}

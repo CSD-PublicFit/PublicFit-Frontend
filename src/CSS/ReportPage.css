@@ -1,0 +1,205 @@
+/* 글로벌 박스 사이징 */
+* {
+    box-sizing: border-box;
+    margin : 0;
+    padding : 0;
+  }
+  
+  /* 전체 레이아웃 */
+  .report-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 뷰포트 기준으로 고정 */
+    width: 100%;
+    font-family: sans-serif;
+    background-color: #ffffff;
+    overflow: hidden; /* 좌우 스크롤 방지 */
+  }  
+  
+/* 상단 헤더 */
+.header {
+    flex: 0 0 15%;
+    display: flex;
+    align-items: center;
+    padding: 0px 40px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #5b6ee1;
+    border-bottom: 3px solid #000;
+    background-color: #fff;
+  }
+  
+  /* 상단 헤더 아래 전체 영역 */
+  .content {
+    display: flex;
+    flex: 1; /* 헤더 제외 나머지 높이 전부 차지 */
+    overflow: hidden;
+  }
+  
+  /* 좌측 패널 */
+  .left-panel {
+    width: 35%;
+    padding: 40px 50px;
+    background-color: #E6EAF5;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  /* 우측 패널 */
+  .right-panel {
+    width: 65%;
+    padding: 20px 40px;
+    background-color: #F1F5F8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* ⬅️ 왼쪽 정렬 */
+    justify-content: flex-start;  /* ⬅️ 위쪽 정렬 */
+  }
+  
+  /* 이하 기타 스타일 그대로 유지 */
+  .back-button {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 30px;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .description {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .highlight {
+    font-weight: 700;
+    color: #000;
+  }
+  
+  .data-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #222;
+  }
+  
+  .sub-list {
+    margin-left: 20px;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .map-placeholder {
+    width: 300px;
+    height: 250px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .note {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .report-button {
+    background-color: #E6EAF5;
+    color: #5B7EF0;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 999px; /* ✅ 양 끝을 둥글게 */
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .report-button:hover {
+    background-color: #2563eb;
+  }
+  
+  .report-button:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+  }
+  
+  .loading-box {
+    font-size: 16px;
+    font-weight: bold;
+    color: #5E80F0;
+    width: 100%;
+    background-color: white;
+    border-radius: 999px;
+    padding: 30px 24px; /* ⬅️ 위아래 padding 증가 */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    box-sizing: border-box;
+  }
+  
+  .pdf-viewer-container {
+    margin-top: 10px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding:15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 500px;
+    overflow:hidden;
+    width: 100%;
+    flex-direction: column;
+    display:flex;
+  }
+
+  .pdf-viewer {
+    background-color: #ffffff;
+    padding:15px;
+    overflow-y:auto;
+    flex:1;
+    width: 100%;
+  }
+
+  .generate-complete-message {
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #22c55e;
+    padding-bottom:10px;
+    border-bottom: 1px solid #000;
+    margin-bottom: 16px;
+  }
+  
+  .pdf-viewer canvas {
+    display: block;
+    margin: 0 auto 20px auto;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+  }
+
+  .pdf-save-container {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+  
+  .pdf-save-button {
+    background-color: #f87171;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
