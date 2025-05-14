@@ -178,16 +178,15 @@ const MapView = () => {
                     <strong>경도</strong>: {selectedMarker.lng}
                   </p>
                   <p>
-                    <strong>인구</strong>:{" "}
-                    {selectedMarker.population.toLocaleString()}명
+                    <strong>설치매력도</strong>:{" "}
+                    {selectedMarker.attractiveness.toLocaleString()}
                   </p>
                   <p>
-                    <strong>교통량</strong>:{" "}
-                    {selectedMarker.traffic.toLocaleString()}대/일
+                    <strong>설치추천순위</strong>: {selectedMarker.rank}위
                   </p>
                   <p>
-                    <strong>집값</strong>:{" "}
-                    {selectedMarker.housePrice.toLocaleString()}원
+                    <strong>중요변수</strong>:{" "}
+                    {selectedMarker.importantVariance.join(", ")}
                   </p>
                 </div>
               </InfoWindow>
