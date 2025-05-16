@@ -66,6 +66,8 @@ const MapContainer = styled.div`
 
 const MapView = () => {
   const {
+    importantVariables,
+    setImportantVariables,
     regionData,
     setRegionData,
     existingLocation,
@@ -82,6 +84,7 @@ const MapView = () => {
 
   useEffect(() => {
     // 페이지 진입 시 지도 데이터 초기화
+    setImportantVariables([]);
     setRegionData([]);
     setExistingLocation([]);
     setPredictedLocation([]);
@@ -177,17 +180,21 @@ const MapView = () => {
                   <p>
                     <strong>경도</strong>: {selectedMarker.lng}
                   </p>
-                  <p>
-                    <strong>설치매력도</strong>:{" "}
-                    {selectedMarker.attractiveness.toLocaleString()}
-                  </p>
-                  <p>
-                    <strong>설치추천순위</strong>: {selectedMarker.rank}위
-                  </p>
-                  <p>
-                    <strong>중요변수</strong>:{" "}
-                    {selectedMarker.importantVariance.join(", ")}
-                  </p>
+                  {"attractiveness" in selectedMarker && (
+                    <>
+                      <p>
+                        <strong>설치매력도</strong>:{" "}
+                        {selectedMarker.attractiveness_score.toLocaleString()}
+                      </p>
+                      <p>
+                        <strong>설치추천순위</strong>: {selectedMarker.rank}위
+                      </p>
+                      <p>
+                        <strong>중요변수</strong>:{" "}
+                        {selectedMarker.importantVariance.join(", ")}
+                      </p>
+                    </>
+                  )}
                 </div>
               </InfoWindow>
             )}

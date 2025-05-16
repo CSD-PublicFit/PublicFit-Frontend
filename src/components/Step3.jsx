@@ -79,24 +79,46 @@ const Step3 = ({
   setIsStepCompleted,
 }) => {
   const step3Completed = isStepCompleted.includes(3);
-  const { setRegionData, setExistingLocation, setPredictedLocation } =
-    useContext(MapDataContext);
+  const {
+    setImportantVariables,
+    setRegionData,
+    setExistingLocation,
+    setPredictedLocation,
+  } = useContext(MapDataContext);
 
   const handleUploadFile = async () => {
     try {
-      /*const result = await uploadFile({
+      const result = await uploadFile({
         facilityName: facilityName,
         basicFileInfo: basicFileInfo,
-        plusFileInfo: plusFileInfo, 
+        plusFileInfo: plusFileInfo,
         selectedRange: selectedRange,
         selectedCity: selectedCity,
-      });  -> api 연결용 */
-      const { regionCoordinates, existingLocations, predictedLocations } =
-        mockAnalysisResult; // 목업데이터
-      setRegionData(regionCoordinates);
-      setExistingLocation(existingLocations);
-      setPredictedLocation(predictedLocations);
-      console.log("데이터를 컨텍스트에 다 할당함");
+      }); //-> api 연결용
+      /*const { regionCoordinates, existingLocations, predictedLocations } =
+        mockAnalysisResult; // 목업데이터 */
+
+      // result 구조 안에 실제 데이터가 들어 있는 위치
+      const analysisResult = result?.data?.analysis_result;
+      console.log("⭐응답은 옴");
+
+      if (analysisResult) {
+        const {
+          importantVariables,
+          regionCoordinates,
+          existingLocations,
+          predictedLocations,
+        } = analysisResult;
+
+        setImportantVariables(importantVariables);
+        setRegionData(regionCoordinates);
+        setExistingLocation(existingLocations);
+        setPredictedLocation(predictedLocations);
+
+        console.log("⭐데이터를 컨텍스트에 다 할당함");
+      } else {
+        console.error("분석 결과가 없습니다.");
+      }
 
       // ✅ API 성공 시 step 3 완료 표시 및 설정
       setIsStepCompleted((prev) => {

@@ -86,7 +86,7 @@ function FileUploader({
       }
 
       // 파일 확장자 체크
-      if (!file.name.endsWith(".CSV")) {
+      if (!file.name.endsWith(".csv")) {
         setError(".csv 파일만 업로드 가능합니다.");
         setValidationStatus("invalid");
         console.log(".csv 파일이 아님");
@@ -124,8 +124,8 @@ function FileUploader({
     // "위도", "경도", "순번" 컬럼이 모두 존재하는지 확인
     if (
       !headers.includes("위도") ||
-      !headers.includes("경도") ||
-      !headers.includes("순번")
+      !headers.includes("경도") //||
+      //!headers.includes("순번")
     ) {
       setError(
         "CSV 파일에 '위도', '경도', '순번' 컬럼이 모두 존재해야 합니다."
