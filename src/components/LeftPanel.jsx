@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function LeftPanel() {
+export default function LeftPanel({imform_list}) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
