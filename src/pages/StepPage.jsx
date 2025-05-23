@@ -17,6 +17,7 @@ const SelectText = styled.p`
   font-size: 25px;
   font-weight: 500;
   margin-left: 15px;
+  margin-top: 20px;
 `;
 
 const StepPage = () => {

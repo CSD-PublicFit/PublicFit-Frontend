@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import prevActive from "../assets/ArrowLeftAct.png";
+import prevDisabled from "../assets/ArrowLeftDeact.png";
+import nextActive from "../assets/ArrowRightAct.png";
+import nextDisabled from "../assets/ArrowRightDeact.png";
+
 
 const Container = styled.div`
   justify-content: center;
@@ -26,34 +30,37 @@ const StepPageWrapper = ({ currentStep, setCurrentStep, isStepCompleted }) => {
           marginTop: "30px",
           display: "flex",
           justifyContent: "center",
-          gap: "20px",
+          gap: "250px",
         }}
       >
-        <button
+        {/* 이전 버튼 */}
+        <img
+          src={currentStep === 1 ? prevDisabled : prevActive}
           onClick={() => handleStepChange(currentStep - 1)}
-          disabled={currentStep === 1}
           style={{
-            fontSize: "20px",
-            padding: "10px 20px",
+            width: "35px",
+            height: "35px",
             cursor: currentStep === 1 ? "not-allowed" : "pointer",
             opacity: currentStep === 1 ? 0.5 : 1,
           }}
-        >
-          ← 이전
-        </button>
-        <button
+          alt="이전"
+        />
+
+        {/* 다음 버튼 */}
+        <img
+          src={
+            currentStep === 4 || !isNextAbled() ? nextDisabled : nextActive
+          }
           onClick={() => handleStepChange(currentStep + 1)}
-          disabled={currentStep === 4 || !isNextAbled()}
           style={{
-            fontSize: "20px",
-            padding: "10px 20px",
+            width: "35px",
+            height: "35px",
             cursor:
               currentStep === 4 || !isNextAbled() ? "not-allowed" : "pointer",
             opacity: currentStep === 4 || !isNextAbled() ? 0.5 : 1,
           }}
-        >
-          다음 →
-        </button>
+          alt="다음"
+        />
       </div>
     </Container>
   );

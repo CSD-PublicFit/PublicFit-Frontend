@@ -45,6 +45,7 @@ const ContextBox = styled.div`
   border: 3px solid #6082f0;
   border-radius: 20px;
   margin-top: 15px;
+  margin-right: 20px;
 `;
 
 const SemiTitle = styled.p`

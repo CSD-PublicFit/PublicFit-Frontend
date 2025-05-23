@@ -23,6 +23,7 @@ const ContextBox = styled.div`
     ${({ $isCompleted }) => ($isCompleted ? "#008C25" : "#6082f0")};
   border-radius: 20px;
   margin-top: 20px;
+  margin-right: 20px;
   padding: 20px 5px;
 `;
 
@@ -86,7 +87,7 @@ const Step3 = ({
     setPredictedLocation,
   } = useContext(MapDataContext);
 
-  const handleUploadFile = async () => {
+  /*const handleUploadFile = async () => {
     try {
       const result = await uploadFile({
         facilityName: facilityName,
@@ -94,12 +95,14 @@ const Step3 = ({
         plusFileInfo: plusFileInfo,
         selectedRange: selectedRange,
         selectedCity: selectedCity,
-      }); //-> api 연결용
+      }); 
+      //-> api 연결용
       /*const { regionCoordinates, existingLocations, predictedLocations } =
-        mockAnalysisResult; // 목업데이터 */
+        mockAnalysisResult; 
+        // 목업데이터 */
 
       // result 구조 안에 실제 데이터가 들어 있는 위치
-      const analysisResult = result?.data?.analysis_result;
+      /*const analysisResult = result?.data?.analysis_result;
       console.log("⭐응답은 옴");
 
       if (analysisResult) {
@@ -133,7 +136,28 @@ const Step3 = ({
       console.error("분석 실패:", error);
       alert("분석에 실패했습니다.");
     }
-  };
+  };*/
+  const handleUploadFile = () => {
+  // 👉 API 대신 목업 데이터 바로 사용
+   const {
+     regionCoordinates,
+     existingLocations,
+     predictedLocations,
+     importantVariables = [],   // mock 데이터에 없으면 빈 배열
+   } = mockAnalysisResult;
+
+   setImportantVariables(importantVariables);
+   setRegionData(regionCoordinates);
+   setExistingLocation(existingLocations);
+   setPredictedLocation(predictedLocations);
+
+   console.log("⭐목업 데이터를 컨텍스트에 다 할당함");
+
+   // Step 3 완료표시
+   setIsStepCompleted((prev) =>
+     prev.includes(3) ? prev : [...prev, 3]
+   );
+ };
 
   return (
     <>
@@ -158,7 +182,7 @@ const Step3 = ({
         <Explain>분석 상권 범위 : {selectedRange}</Explain>
         <hr
           style={{
-            height: "2px",
+            height: "1.7px",
             backgroundColor: "#666666",
             marginTop: "15px",
           }}

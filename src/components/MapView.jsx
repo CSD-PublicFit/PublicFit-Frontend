@@ -10,6 +10,12 @@ import {
 
 import { MapDataContext } from "../context/MapDataContext";
 
+import locIcon1 from "../assets/Loc1.png";
+import locIcon2 from "../assets/Loc2.png";
+import locIcon3 from "../assets/Loc3.png";
+import locIcon4 from "../assets/Loc4.png";
+import locIcon5 from "../assets/Loc5.png";
+
 const containerStyle = {
   width: "100%",
   height: "100%",
@@ -18,6 +24,19 @@ const containerStyle = {
 const center = {
   lat: 37.5665, // 서울 위도
   lng: 126.978, // 서울 경도
+};
+
+const mapOptions = {
+  streetViewControl: false, // 로드뷰 버튼 제거
+};
+
+// 순위에 따른 마커 아이콘 매핑 객체
+const rankIcons = {
+  1: locIcon1,
+  2: locIcon2,
+  3: locIcon3,
+  4: locIcon4,
+  5: locIcon5,
 };
 
 const Container = styled.div`
@@ -129,6 +148,7 @@ const MapView = () => {
             center={center}
             zoom={13}
             onLoad={(mapInstance) => setMap(mapInstance)}
+            options={mapOptions}
           >
             {/* 마커, 폴리곤 등 지도 위 요소는 여기에 */}
             {/* regionData → Polygon */}
@@ -158,6 +178,24 @@ const MapView = () => {
               ))}
 
             {viewMode === "predicted" &&
+                predictedLocation &&
+                predictedLocation.map((loc, index) => (
+                  <Marker
+                    key={`predicted-${index}`}
+                    position={{ lat: loc.lat, lng: loc.lng }}
+                    onClick={() => setSelectedMarker(loc)}
+                    icon={
+                      loc.rank <= 5
+                        ? {
+                            url: rankIcons[loc.rank],
+                            scaledSize: new window.google.maps.Size(40, 40), // 크기 조절
+                          }
+                        : undefined // 나머지는 기본 마커
+                    }
+                  />
+            ))}
+
+            {/*{viewMode === "predicted" &&
               predictedLocation &&
               predictedLocation.map((loc, index) => (
                 <Marker
@@ -165,7 +203,7 @@ const MapView = () => {
                   position={{ lat: loc.lat, lng: loc.lng }}
                   onClick={() => setSelectedMarker(loc)}
                 />
-              ))}
+              ))}*/}
 
             {/* InfoWindow */}
             {selectedMarker && (
@@ -184,7 +222,7 @@ const MapView = () => {
                     <>
                       <p>
                         <strong>설치매력도</strong>:{" "}
-                        {selectedMarker.attractiveness_score.toLocaleString()}
+                        {selectedMarker.attractiveness.toLocaleString()}
                       </p>
                       <p>
                         <strong>설치추천순위</strong>: {selectedMarker.rank}위
