@@ -14,7 +14,8 @@ export const uploadFile = async ({
   formData.append("selectedRange", selectedRange);
   formData.append("selectedCity", selectedCity);
 
-  const response = await fetch("http://3.36.169.185/api/analysis/start", {
+  //http://3.36.169.185/api/analysis/start
+  const response = await fetch("https://e30c-110-8-123-249.ngrok-free.app/api/analysis/start", {
     method: "POST",
     body: formData,
   });
