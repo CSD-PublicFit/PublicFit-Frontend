@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-import prevActive from "../assets/ArrowLeftAct.png";
-import prevDisabled from "../assets/ArrowLeftDeact.png";
-import nextActive from "../assets/ArrowRightAct.png";
-import nextDisabled from "../assets/ArrowRightDeact.png";
+const prevActive = `${window.location.origin}/assets/ArrowLeftAct.png`;
+const prevDisabled = `${window.location.origin}/assets/ArrowLeftDeact.png`;
+const nextActive = `${window.location.origin}/assets/ArrowRightAct.png`;
+const nextDisabled = `${window.location.origin}/assets/ArrowRightDeact.png`;
 
 
 const Container = styled.div`

@@ -10,11 +10,11 @@ import {
 
 import { MapDataContext } from "../context/MapDataContext";
 
-import locIcon1 from "../assets/Loc1.png";
-import locIcon2 from "../assets/Loc2.png";
-import locIcon3 from "../assets/Loc3.png";
-import locIcon4 from "../assets/Loc4.png";
-import locIcon5 from "../assets/Loc5.png";
+const locIcon1 = `${window.location.origin}/assets/Loc1.png`;
+const locIcon2 = `${window.location.origin}/assets/Loc2.png`;
+const locIcon3 = `${window.location.origin}/assets/Loc3.png`;
+const locIcon4 = `${window.location.origin}/assets/Loc4.png`;
+const locIcon5 = `${window.location.origin}/assets/Loc5.png`;
 
 const containerStyle = {
   width: "100%",
@@ -117,6 +117,12 @@ const MapView = () => {
     }
   }, [map, regionData]);
 
+  useEffect(() => {
+  if (predictedLocation && predictedLocation.length > 0) {
+    setViewMode("predicted");
+  }
+}, [predictedLocation]);
+
   return (
     <Container>
       <ButtonContainer
@@ -173,7 +179,7 @@ const MapView = () => {
                 <Marker
                   key={`existing-${index}`}
                   position={{ lat: loc.lat, lng: loc.lng }}
-                  onClick={() => setSelectedMarker(loc)}
+                  onClick={() => setSelectedMarker({ ...loc, type: "existing" })}
                 />
               ))}
 
@@ -183,7 +189,7 @@ const MapView = () => {
                   <Marker
                     key={`predicted-${index}`}
                     position={{ lat: loc.lat, lng: loc.lng }}
-                    onClick={() => setSelectedMarker(loc)}
+                    onClick={() => setSelectedMarker({ ...loc, type: "predicted" })}
                     icon={
                       loc.rank <= 5
                         ? {
@@ -206,7 +212,7 @@ const MapView = () => {
               ))}*/}
 
             {/* InfoWindow */}
-            {selectedMarker && (
+            {/*selectedMarker && (
               <InfoWindow
                 position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
                 onCloseClick={() => setSelectedMarker(null)} // 닫기 버튼
@@ -218,11 +224,11 @@ const MapView = () => {
                   <p>
                     <strong>경도</strong>: {selectedMarker.lng}
                   </p>
-                  {"attractiveness" in selectedMarker && (
+                  {"attractiveness_score" in selectedMarker && (
                     <>
                       <p>
                         <strong>설치매력도</strong>:{" "}
-                        {selectedMarker.attractiveness.toLocaleString()}
+                        {selectedMarker.attractiveness_score.toLocaleString()}
                       </p>
                       <p>
                         <strong>설치추천순위</strong>: {selectedMarker.rank}위
@@ -235,7 +241,34 @@ const MapView = () => {
                   )}
                 </div>
               </InfoWindow>
-            )}
+            )*/}
+            {selectedMarker && (
+  <InfoWindow
+    position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+    onCloseClick={() => setSelectedMarker(null)}
+  >
+    <div>
+      <p><strong>위도</strong>: {selectedMarker.lat}</p>
+      <p><strong>경도</strong>: {selectedMarker.lng}</p>
+
+      {selectedMarker.type === "predicted" && (
+        <>
+          <p>
+            <strong>설치매력도</strong>:{" "}
+            {selectedMarker.attractiveness_score.toLocaleString()}
+          </p>
+          <p>
+            <strong>설치추천순위</strong>: {selectedMarker.rank}위
+          </p>
+          {/*<p>
+            <strong>중요변수</strong>:{" "}
+            {selectedMarker.importantVariance.join(", ")}
+          </p>*/}
+        </>
+      )}
+    </div>
+  </InfoWindow>
+)}
           </GoogleMap>
         </LoadScript>
       </MapContainer>

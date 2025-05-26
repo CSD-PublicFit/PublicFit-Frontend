@@ -86,8 +86,11 @@ const Step3 = ({
     setExistingLocation,
     setPredictedLocation,
   } = useContext(MapDataContext);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(selectedRange);
 
   /*const handleUploadFile = async () => {
+    setIsLoading(true); // 로딩 시작
     try {
       const result = await uploadFile({
         facilityName: facilityName,
@@ -97,12 +100,12 @@ const Step3 = ({
         selectedCity: selectedCity,
       }); 
       //-> api 연결용
-      /*const { regionCoordinates, existingLocations, predictedLocations } =
+      const { regionCoordinates, existingLocations, predictedLocations } =
         mockAnalysisResult; 
-        // 목업데이터 */
+        // 목업데이터
 
       // result 구조 안에 실제 데이터가 들어 있는 위치
-      /*const analysisResult = result?.data?.analysis_result;
+      const analysisResult = result?.data?.analysis_result;
       console.log("⭐응답은 옴");
 
       if (analysisResult) {
@@ -135,28 +138,36 @@ const Step3 = ({
     } catch (error) {
       console.error("분석 실패:", error);
       alert("분석에 실패했습니다.");
-    }
+    }finally {
+    setIsLoading(false); // 로딩 종료
+  }
   };*/
-  const handleUploadFile = () => {
-  // 👉 API 대신 목업 데이터 바로 사용
-   const {
-     regionCoordinates,
-     existingLocations,
-     predictedLocations,
-     importantVariables = [],   // mock 데이터에 없으면 빈 배열
-   } = mockAnalysisResult;
+  const handleUploadFile = async() => {
+    setIsLoading(true); // 로딩 시작
+  try {
+    // 👉 2초 딜레이 (2000ms)
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-   setImportantVariables(importantVariables);
-   setRegionData(regionCoordinates);
-   setExistingLocation(existingLocations);
-   setPredictedLocation(predictedLocations);
+    // 목업 사용이든 실제 API든 동일하게
+    const {
+      regionCoordinates,
+      existingLocations,
+      predictedLocations,
+      importantVariables = [],
+    } = mockAnalysisResult;
 
-   console.log("⭐목업 데이터를 컨텍스트에 다 할당함");
+    setImportantVariables(importantVariables);
+    setRegionData(regionCoordinates);
+    setExistingLocation(existingLocations);
+    setPredictedLocation(predictedLocations);
 
-   // Step 3 완료표시
-   setIsStepCompleted((prev) =>
-     prev.includes(3) ? prev : [...prev, 3]
-   );
+    setIsStepCompleted((prev) => (prev.includes(3) ? prev : [...prev, 3]));
+  } catch (error) {
+    console.error("분석 실패:", error);
+    alert("분석에 실패했습니다.");
+  } finally {
+    setIsLoading(false); // 로딩 종료
+  }
  };
 
   return (
@@ -187,12 +198,19 @@ const Step3 = ({
             marginTop: "15px",
           }}
         ></hr>
-        <AnalyzeButton
+        {/*<AnalyzeButton
           $isCompleted={step3Completed}
           disabled={step3Completed}
           onClick={handleUploadFile}
         >
           {step3Completed ? "분석 완료" : "분석 시작"}
+        </AnalyzeButton>*/}
+        <AnalyzeButton
+          $isCompleted={step3Completed}
+          disabled={step3Completed || isLoading}
+          onClick={handleUploadFile}
+        >
+          {isLoading ? "분석 중..." : step3Completed ? "분석 완료" : "분석 시작"}
         </AnalyzeButton>
       </ContextBox>
     </>

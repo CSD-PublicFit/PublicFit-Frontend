@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate} from "react-router-dom";
+
+import { MapDataContext } from "../context/MapDataContext";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -32,8 +35,56 @@ const ReportButton = styled.button`
   }
 `;
 
+
+const iconUrls = {
+  1: `${window.location.origin}/assets/Loc1.png`,
+  2: `${window.location.origin}/assets/Loc2.png`,
+  3: `${window.location.origin}/assets/Loc3.png`,
+  4: `${window.location.origin}/assets/Loc4.png`,
+  5: `${window.location.origin}/assets/Loc5.png`,
+};
+
+const generateStaticMapUrl = (predictedLocations, regionData) => {
+  const baseUrl = "https://maps.googleapis.com/maps/api/staticmap?";
+  const size = "size=800x500";
+  const maptype = "maptype=roadmap";
+
+  const markers = predictedLocations
+    .map((loc) => `markers=color:red%7C${loc.lat},${loc.lng}`)
+    .join("&");
+
+  const visible = `visible=${predictedLocations
+    .map((loc) => `${loc.lat},${loc.lng}`)
+    .join("|")}`;
+
+  /*const markers = predictedLocations
+    .map((loc) => {
+      if (loc.rank >= 1 && loc.rank <= 5) {
+        return `markers=icon:${encodeURIComponent(iconUrls[loc.rank])}%7C${loc.lat},${loc.lng}`;
+      }
+      return `markers=color:red%7C${loc.lat},${loc.lng}`;
+    })
+    .join("&");*/
+
+  const key = `key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`;
+
+  return `${baseUrl}${size}&${maptype}&${visible}&${markers}&${key}`;
+};
+
 const Step4 = () => {
   const navigate = useNavigate();
+  const { regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
+
+  const handleReportClick = () => {
+    const imageUrl = generateStaticMapUrl(predictedLocation, regionData|| []);
+    navigate("/report", {
+      state: {
+        imageUrl,
+        predictedLocation,
+      },
+    });
+  };
+
 
   return (
     <>
@@ -43,6 +94,11 @@ const Step4 = () => {
       </TitleContainer>
       <ReportButtonContainer>
         <ReportButton onClick={() => navigate("/report")}>
+          결과 레포트 확인 / 저장
+        </ReportButton>
+      </ReportButtonContainer>
+      <ReportButtonContainer>
+        <ReportButton onClick={handleReportClick}>
           결과 레포트 확인 / 저장
         </ReportButton>
       </ReportButtonContainer>

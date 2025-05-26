@@ -15,11 +15,10 @@ export const uploadFile = async ({
   formData.append("selectedCity", selectedCity);
 
   //http://3.36.169.185/api/analysis/start
-  const response = await fetch("https://e30c-110-8-123-249.ngrok-free.app/api/analysis/start", {
+  const response = await fetch("https://6932-210-94-220-230.ngrok-free.app/api/analysis/start", {
     method: "POST",
     body: formData,
   });
-  console.log("응답이 이상함!!!!!!!!");
 
   /*if (!response.ok) {
     console.log("⭐api 함수 자체에서 응답 안옴");
