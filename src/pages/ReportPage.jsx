@@ -5,6 +5,8 @@ import LeftPanel from "../components/LeftPanel";
 import RightPanel from "../components/RightPanel";
 import TopTitle from "../components/TopTitle"
 
+import { useLocation } from "react-router-dom";
+
 const TopLine = styled.hr`
   background-color: #545454;
   height: 4px;
@@ -14,6 +16,9 @@ const TopLine = styled.hr`
 export default function ReportPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+
+  const location = useLocation();
+  const { imageUrl, predictedLocation } = location.state || {};
 
 
   const handleGenerateReport = async () => {
@@ -49,7 +54,9 @@ export default function ReportPage() {
       <TopTitle />
       <TopLine />
       <div className="content">
-        <LeftPanel />
+        {/*<LeftPanel />*/}
+        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation}/>
+        {/*<LeftPanel/>*/}
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>
     </div>

@@ -1,12 +1,24 @@
 import React from "react";
 
-export default function LeftPanel() {
+export default function LeftPanel({ imageUrl, predictedLocation }) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
 
+  // 확인용 콘솔 로그
+  console.log("📍 imageUrl:", imageUrl);
+  console.log("📍 predictedLocation:", predictedLocation);
+
   return (
     <div className="left-panel">
+      {/* 지도 이미지 확인용 출력 */}
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt="예측 위치 지도"
+          style={{ width: "100%", borderRadius: "10px", marginBottom: "10px" }}
+        />
+      )}
       <button className="back-button" onClick={handleBack}>← 이전페이지</button>
       <p className="description">
         다음의 데이터들로 <span className="highlight">분석 결과 레포트</span>를 생성합니다.
