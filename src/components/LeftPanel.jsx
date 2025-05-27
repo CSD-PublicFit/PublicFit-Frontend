@@ -46,8 +46,6 @@ const CheckIcon = styled.img`
   width: 20px;
   height: 20px;
 `
-
-
 /*
 inform_list 
 "facility_name": "공공자전거",
@@ -75,27 +73,27 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
   return (
     <Container>
       <BackButton onClick={handleBack}>← 이전페이지</BackButton>
+      {inform_list && (
+      <>
       <Description>
         다음의 데이터들로 <Highlight>분석 결과 레포트</Highlight>를 생성합니다.
       </Description>
       <MainList>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>격자_100m_데이터_대전</li>
+          <li>{inform_list.file_name}</li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>공공시설물: 어린이집</li>
+          <li>공공시설물: {inform_list.facility_name}</li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
           <li>사용된 변수명:
             <ul className="sub-list">
-            <li>- 인구수_여</li>
-            <li>- 버스정류장 수</li>
-            <li>- 상가_업종, 상가_수</li>
-            <li>- CCTV_수</li>
-            <li>- 건축물_종류_아파트</li>
+              {inform_list.important_variables.map((variable, index) => (
+                  <li key={index}> {variable}</li>
+                ))}
             </ul>
           </li>
         </ListContainer>
@@ -112,6 +110,8 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
             />
           )}
       </MainList>
+      </>
+      )}
     </Container>
   );
 }
