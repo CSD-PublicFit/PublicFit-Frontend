@@ -26,6 +26,14 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
 
   return (
     <div className="left-panel">
+      {/* 지도 이미지 확인용 출력 */}
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt="예측 위치 지도"
+          style={{ width: "100%", borderRadius: "10px", marginBottom: "10px" }}
+        />
+      )}
       <button className="back-button" onClick={handleBack}>← 이전페이지</button>
       {/* 지도 이미지 확인용 출력 */}
       {imageUrl && (

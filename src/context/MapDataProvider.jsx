@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapDataContext } from "./MapDataContext";
 
 export const MapDataProvider = ({ children }) => {
+  const [importantVariables, setImportantVariables] = useState(null);
   const [regionData, setRegionData] = useState(null);
   const [existingLocation, setExistingLocation] = useState(null);
   const [predictedLocation, setPredictedLocation] = useState(null);
@@ -9,6 +10,8 @@ export const MapDataProvider = ({ children }) => {
   return (
     <MapDataContext.Provider
       value={{
+        importantVariables,
+        setImportantVariables,
         regionData,
         setRegionData,
         existingLocation,

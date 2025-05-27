@@ -5,6 +5,8 @@ import LeftPanel from "../components/LeftPanel";
 import RightPanel from "../components/RightPanel";
 import TopTitle from "../components/TopTitle"
 
+import { useLocation } from "react-router-dom";
+
 const TopLine = styled.hr`
   background-color: #545454;
   height: 4px;
@@ -34,7 +36,10 @@ const b64ToBlob = (b64Data, contentType='application/pdf', sliceSize=512) => {
 export default function ReportPage({selection_id}) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
-  const [imform_list, setInformList] = useState(null);
+  const [inform_list, setInformList] = useState(null);
+
+  const location = useLocation();
+  const { imageUrl, predictedLocation } = location.state || {};
 
 
   const handleGenerateReport = async () => {
@@ -66,7 +71,9 @@ export default function ReportPage({selection_id}) {
       <TopTitle />
       <TopLine />
       <div className="content">
-        <LeftPanel inform_list={imform_list}/>
+        {/*<LeftPanel />*/}
+        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation} inform_list={inform_list}/>
+        {/*<LeftPanel/>*/}
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>
     </div>

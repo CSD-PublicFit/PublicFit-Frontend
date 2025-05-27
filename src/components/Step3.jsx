@@ -23,6 +23,7 @@ const ContextBox = styled.div`
     ${({ $isCompleted }) => ($isCompleted ? "#008C25" : "#6082f0")};
   border-radius: 20px;
   margin-top: 20px;
+  margin-right: 20px;
   padding: 20px 5px;
 `;
 
@@ -79,24 +80,51 @@ const Step3 = ({
   setIsStepCompleted,
 }) => {
   const step3Completed = isStepCompleted.includes(3);
-  const { setRegionData, setExistingLocation, setPredictedLocation } =
-    useContext(MapDataContext);
+  const {
+    setImportantVariables,
+    setRegionData,
+    setExistingLocation,
+    setPredictedLocation,
+  } = useContext(MapDataContext);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(selectedRange);
 
-  const handleUploadFile = async () => {
+  /*const handleUploadFile = async () => {
+    setIsLoading(true); // 로딩 시작
     try {
-      /*const result = await uploadFile({
+      const result = await uploadFile({
         facilityName: facilityName,
         basicFileInfo: basicFileInfo,
-        plusFileInfo: plusFileInfo, 
+        plusFileInfo: plusFileInfo,
         selectedRange: selectedRange,
         selectedCity: selectedCity,
-      });  -> api 연결용 */
+      }); 
+      //-> api 연결용
       const { regionCoordinates, existingLocations, predictedLocations } =
-        mockAnalysisResult; // 목업데이터
-      setRegionData(regionCoordinates);
-      setExistingLocation(existingLocations);
-      setPredictedLocation(predictedLocations);
-      console.log("데이터를 컨텍스트에 다 할당함");
+        mockAnalysisResult; 
+        // 목업데이터
+
+      // result 구조 안에 실제 데이터가 들어 있는 위치
+      const analysisResult = result?.data?.analysis_result;
+      console.log("⭐응답은 옴");
+
+      if (analysisResult) {
+        const {
+          importantVariables,
+          regionCoordinates,
+          existingLocations,
+          predictedLocations,
+        } = analysisResult;
+
+        setImportantVariables(importantVariables);
+        setRegionData(regionCoordinates);
+        setExistingLocation(existingLocations);
+        setPredictedLocation(predictedLocations);
+
+        console.log("⭐데이터를 컨텍스트에 다 할당함");
+      } else {
+        console.error("분석 결과가 없습니다.");
+      }
 
       // ✅ API 성공 시 step 3 완료 표시 및 설정
       setIsStepCompleted((prev) => {
@@ -110,8 +138,37 @@ const Step3 = ({
     } catch (error) {
       console.error("분석 실패:", error);
       alert("분석에 실패했습니다.");
-    }
-  };
+    }finally {
+    setIsLoading(false); // 로딩 종료
+  }
+  };*/
+  const handleUploadFile = async() => {
+    setIsLoading(true); // 로딩 시작
+  try {
+    // 👉 2초 딜레이 (2000ms)
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    // 목업 사용이든 실제 API든 동일하게
+    const {
+      regionCoordinates,
+      existingLocations,
+      predictedLocations,
+      importantVariables = [],
+    } = mockAnalysisResult;
+
+    setImportantVariables(importantVariables);
+    setRegionData(regionCoordinates);
+    setExistingLocation(existingLocations);
+    setPredictedLocation(predictedLocations);
+
+    setIsStepCompleted((prev) => (prev.includes(3) ? prev : [...prev, 3]));
+  } catch (error) {
+    console.error("분석 실패:", error);
+    alert("분석에 실패했습니다.");
+  } finally {
+    setIsLoading(false); // 로딩 종료
+  }
+ };
 
   return (
     <>
@@ -136,17 +193,24 @@ const Step3 = ({
         <Explain>분석 상권 범위 : {selectedRange}</Explain>
         <hr
           style={{
-            height: "2px",
+            height: "1.7px",
             backgroundColor: "#666666",
             marginTop: "15px",
           }}
         ></hr>
-        <AnalyzeButton
+        {/*<AnalyzeButton
           $isCompleted={step3Completed}
           disabled={step3Completed}
           onClick={handleUploadFile}
         >
           {step3Completed ? "분석 완료" : "분석 시작"}
+        </AnalyzeButton>*/}
+        <AnalyzeButton
+          $isCompleted={step3Completed}
+          disabled={step3Completed || isLoading}
+          onClick={handleUploadFile}
+        >
+          {isLoading ? "분석 중..." : step3Completed ? "분석 완료" : "분석 시작"}
         </AnalyzeButton>
       </ContextBox>
     </>

@@ -10,6 +10,12 @@ import {
 
 import { MapDataContext } from "../context/MapDataContext";
 
+const locIcon1 = `${window.location.origin}/assets/Loc1.png`;
+const locIcon2 = `${window.location.origin}/assets/Loc2.png`;
+const locIcon3 = `${window.location.origin}/assets/Loc3.png`;
+const locIcon4 = `${window.location.origin}/assets/Loc4.png`;
+const locIcon5 = `${window.location.origin}/assets/Loc5.png`;
+
 const containerStyle = {
   width: "100%",
   height: "100%",
@@ -18,6 +24,19 @@ const containerStyle = {
 const center = {
   lat: 37.5665, // 서울 위도
   lng: 126.978, // 서울 경도
+};
+
+const mapOptions = {
+  streetViewControl: false, // 로드뷰 버튼 제거
+};
+
+// 순위에 따른 마커 아이콘 매핑 객체
+const rankIcons = {
+  1: locIcon1,
+  2: locIcon2,
+  3: locIcon3,
+  4: locIcon4,
+  5: locIcon5,
 };
 
 const Container = styled.div`
@@ -66,6 +85,8 @@ const MapContainer = styled.div`
 
 const MapView = () => {
   const {
+    importantVariables,
+    setImportantVariables,
     regionData,
     setRegionData,
     existingLocation,
@@ -82,6 +103,7 @@ const MapView = () => {
 
   useEffect(() => {
     // 페이지 진입 시 지도 데이터 초기화
+    setImportantVariables([]);
     setRegionData([]);
     setExistingLocation([]);
     setPredictedLocation([]);
@@ -94,6 +116,12 @@ const MapView = () => {
       map.fitBounds(bounds);
     }
   }, [map, regionData]);
+
+  useEffect(() => {
+  if (predictedLocation && predictedLocation.length > 0) {
+    setViewMode("predicted");
+  }
+}, [predictedLocation]);
 
   return (
     <Container>
@@ -126,6 +154,7 @@ const MapView = () => {
             center={center}
             zoom={13}
             onLoad={(mapInstance) => setMap(mapInstance)}
+            options={mapOptions}
           >
             {/* 마커, 폴리곤 등 지도 위 요소는 여기에 */}
             {/* regionData → Polygon */}
@@ -150,11 +179,29 @@ const MapView = () => {
                 <Marker
                   key={`existing-${index}`}
                   position={{ lat: loc.lat, lng: loc.lng }}
-                  onClick={() => setSelectedMarker(loc)}
+                  onClick={() => setSelectedMarker({ ...loc, type: "existing" })}
                 />
               ))}
 
             {viewMode === "predicted" &&
+                predictedLocation &&
+                predictedLocation.map((loc, index) => (
+                  <Marker
+                    key={`predicted-${index}`}
+                    position={{ lat: loc.lat, lng: loc.lng }}
+                    onClick={() => setSelectedMarker({ ...loc, type: "predicted" })}
+                    icon={
+                      loc.rank <= 5
+                        ? {
+                            url: rankIcons[loc.rank],
+                            scaledSize: new window.google.maps.Size(40, 40), // 크기 조절
+                          }
+                        : undefined // 나머지는 기본 마커
+                    }
+                  />
+            ))}
+
+            {/*{viewMode === "predicted" &&
               predictedLocation &&
               predictedLocation.map((loc, index) => (
                 <Marker
@@ -162,10 +209,10 @@ const MapView = () => {
                   position={{ lat: loc.lat, lng: loc.lng }}
                   onClick={() => setSelectedMarker(loc)}
                 />
-              ))}
+              ))}*/}
 
             {/* InfoWindow */}
-            {selectedMarker && (
+            {/*selectedMarker && (
               <InfoWindow
                 position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
                 onCloseClick={() => setSelectedMarker(null)} // 닫기 버튼
@@ -177,20 +224,51 @@ const MapView = () => {
                   <p>
                     <strong>경도</strong>: {selectedMarker.lng}
                   </p>
-                  <p>
-                    <strong>설치매력도</strong>:{" "}
-                    {selectedMarker.attractiveness.toLocaleString()}
-                  </p>
-                  <p>
-                    <strong>설치추천순위</strong>: {selectedMarker.rank}위
-                  </p>
-                  <p>
-                    <strong>중요변수</strong>:{" "}
-                    {selectedMarker.importantVariance.join(", ")}
-                  </p>
+                  {"attractiveness_score" in selectedMarker && (
+                    <>
+                      <p>
+                        <strong>설치매력도</strong>:{" "}
+                        {selectedMarker.attractiveness_score.toLocaleString()}
+                      </p>
+                      <p>
+                        <strong>설치추천순위</strong>: {selectedMarker.rank}위
+                      </p>
+                      <p>
+                        <strong>중요변수</strong>:{" "}
+                        {selectedMarker.importantVariance.join(", ")}
+                      </p>
+                    </>
+                  )}
                 </div>
               </InfoWindow>
-            )}
+            )*/}
+            {selectedMarker && (
+  <InfoWindow
+    position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+    onCloseClick={() => setSelectedMarker(null)}
+  >
+    <div>
+      <p><strong>위도</strong>: {selectedMarker.lat}</p>
+      <p><strong>경도</strong>: {selectedMarker.lng}</p>
+
+      {selectedMarker.type === "predicted" && (
+        <>
+          <p>
+            <strong>설치매력도</strong>:{" "}
+            {selectedMarker.attractiveness_score.toLocaleString()}
+          </p>
+          <p>
+            <strong>설치추천순위</strong>: {selectedMarker.rank}위
+          </p>
+          {/*<p>
+            <strong>중요변수</strong>:{" "}
+            {selectedMarker.importantVariance.join(", ")}
+          </p>*/}
+        </>
+      )}
+    </div>
+  </InfoWindow>
+)}
           </GoogleMap>
         </LoadScript>
       </MapContainer>

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
 
-import checkBlue from "../assets/CheckBlue.png";
-import warnRed from "../assets/warnRed.png";
-import closeButton from "../assets/CloseButton.png";
+const checkBlue = `${window.location.origin}/assets/CheckBlue.png`;
+const warnRed = `${window.location.origin}/assets/WarnRed.png`;
+const closeButton = `${window.location.origin}/assets/CloseButton.png`;
 
 const FileButton = styled.button`
   width: 80px;
@@ -86,7 +86,7 @@ function FileUploader({
       }
 
       // 파일 확장자 체크
-      if (!file.name.endsWith(".CSV")) {
+      if (!file.name.endsWith(".csv")) {
         setError(".csv 파일만 업로드 가능합니다.");
         setValidationStatus("invalid");
         console.log(".csv 파일이 아님");
@@ -96,7 +96,7 @@ function FileUploader({
       // 모든 검사를 통과하면 파일 정보를 성공적으로 받아들임
       const reader = new FileReader();
       console.log("파일 객체 생성");
-      reader.readAsText(file, "euc-kr"); // 파일을 text로 읽기 시작
+      reader.readAsText(file, "utf-8"); 
       console.log("파일을 text로 읽기 시작");
       reader.onload = () => {
         const text = reader.result;
@@ -124,14 +124,14 @@ function FileUploader({
     // "위도", "경도", "순번" 컬럼이 모두 존재하는지 확인
     if (
       !headers.includes("위도") ||
-      !headers.includes("경도") ||
-      !headers.includes("순번")
+      !headers.includes("경도") //||
+      //!headers.includes("순번")
     ) {
       setError(
-        "CSV 파일에 '위도', '경도', '순번' 컬럼이 모두 존재해야 합니다."
+        "CSV 파일에 '위도', '경도' 컬럼이 모두 존재해야 합니다."
       );
       console.log(
-        "CSV 파일에 '위도', '경도', '순번' 컬럼이 모두 존재해야 합니다."
+        "CSV 파일에 '위도', '경도' 컬럼이 모두 존재해야 합니다."
       );
       return false;
     }

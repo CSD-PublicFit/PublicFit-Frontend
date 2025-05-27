@@ -28,7 +28,7 @@ const StepContentPage = ({
 
   // Step2
   const [facilityName, setFacilityName] = useState(""); // 분석할 공공시설물 이름
-  const [selectedRange, setSelectedRange] = useState("100m"); // 공공시설물 상권 범위
+  const [selectedRange, setSelectedRange] = useState("100"); // 공공시설물 상권 범위
   const [selectedCity, setSelectedCity] = useState(""); // 예측하고 싶은 시
 
   return (

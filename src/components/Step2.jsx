@@ -97,10 +97,10 @@ const Step2 = ({
             value={selectedRange}
             onChange={(e) => setSelectedRange(e.target.value)}
           >
-            <option value="100m">100m</option>
-            <option value="250m">250m</option>
-            <option value="500m">500m</option>
-            <option value="1km">1km</option>
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
           </SelectBox>
         </div>
 
