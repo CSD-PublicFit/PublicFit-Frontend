@@ -93,11 +93,6 @@ const Step4 = () => {
         <NoticeTitle>분석결과를 레포트로 만들어보세요.</NoticeTitle>
       </TitleContainer>
       <ReportButtonContainer>
-        <ReportButton onClick={() => navigate("/report")}>
-          결과 레포트 확인 / 저장
-        </ReportButton>
-      </ReportButtonContainer>
-      <ReportButtonContainer>
         <ReportButton onClick={handleReportClick}>
           결과 레포트 확인 / 저장
         </ReportButton>
