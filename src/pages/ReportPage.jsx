@@ -13,9 +13,30 @@ const TopLine = styled.hr`
   border: none;
 `;
 
-export default function ReportPage() {
+const b64ToBlob = (b64Data, contentType='application/pdf', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+    
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+export default function ReportPage({selection_id}) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [inform_list, setInformList] = useState(null);
 
   const location = useLocation();
   const { imageUrl, predictedLocation } = location.state || {};
@@ -25,21 +46,17 @@ export default function ReportPage() {
     setLoading(true);
   
     try {
-      const response = await fetch("http://localhost:3001/report/generate", {
+      const response = await fetch("https://bc66-210-94-220-228.ngrok-free.app/api/report/generate?selection_id=7", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          'ngrok-skip-browser-warning' : '69420',
         }
       });
-  
-      if (!response.ok) throw new Error("리포트 생성 실패");
-  
-      // PDF 응답을 blob으로 받기
-      const blob = await response.blob();
-      const pdfUrl = URL.createObjectURL(blob);
-      
-      setResult(pdfUrl);
-  
+
+      const result = await response.json();
+      const pdfUrl=result["report_pdf"];
+      setResult(URL.createObjectURL(b64ToBlob(pdfUrl)));
+      setInformList(result["report_info"]);
     } catch (error) {
       console.error("Error generating report:", error);
       alert("리포트 생성 중 오류가 발생했습니다.");
@@ -55,7 +72,7 @@ export default function ReportPage() {
       <TopLine />
       <div className="content">
         {/*<LeftPanel />*/}
-        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation}/>
+        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation} inform_list={inform_list}/>
         {/*<LeftPanel/>*/}
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>

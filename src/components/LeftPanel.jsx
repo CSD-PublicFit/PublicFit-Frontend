@@ -48,7 +48,22 @@ const CheckIcon = styled.img`
 `
 
 
-export default function LeftPanel({ imageUrl, predictedLocation }) {
+/*
+inform_list 
+"facility_name": "공공자전거",
+"file_name": "Daejeon_Bicycle_Data.csv",
+"region": "대전광역시",
+"target_area": "100m",
+"important_variables": [
+      "인구밀도",
+      "교통량",
+      "상권지수",
+      "대중교통_접근성",
+      "소득수준"
+    ]
+  */
+
+export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
