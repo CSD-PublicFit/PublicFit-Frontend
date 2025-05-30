@@ -71,7 +71,11 @@ const generateStaticMapUrl = (predictedLocations, regionData) => {
   return `${baseUrl}${size}&${maptype}&${visible}&${markers}&${key}`;
 };
 
-const Step4 = () => {
+const Step4 = ({
+  facilityName,
+  basicFileInfo,
+  plusFileInfo,
+}) => {
   const navigate = useNavigate();
   const { regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
 
@@ -81,6 +85,9 @@ const Step4 = () => {
       state: {
         imageUrl,
         predictedLocation,
+        facilityName, 
+        basicFileInfo, 
+        plusFileInfo,  
       },
     });
   };

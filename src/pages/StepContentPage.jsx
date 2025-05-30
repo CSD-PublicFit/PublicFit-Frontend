@@ -70,7 +70,12 @@ const StepContentPage = ({
           setIsStepCompleted={setIsStepCompleted}
         />
       )}
-      {currentStep === 4 && <Step4 />}
+      {currentStep === 4 && (
+      <Step4 
+      facilityName={facilityName}
+      basicFileInfo={basicFileInfo}
+      plusFileInfo={plusFileInfo}
+      />)}
     </ContentBox>
   );
 };

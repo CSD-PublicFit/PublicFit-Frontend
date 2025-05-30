@@ -39,7 +39,7 @@ export default function ReportPage({selection_id}) {
   const [inform_list, setInformList] = useState(null);
 
   const location = useLocation();
-  const { imageUrl, predictedLocation } = location.state || {};
+  const { imageUrl, predictedLocation, facilityName, basicFileInfo, plusFileInfo } = location.state || {};
 
 
   const handleGenerateReport = async () => {
@@ -72,7 +72,7 @@ export default function ReportPage({selection_id}) {
       <TopLine />
       <div className="content">
         {/*<LeftPanel />*/}
-        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation} inform_list={inform_list}/>
+        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation} inform_list={inform_list} facilityName={facilityName} basicFileInfo={basicFileInfo} plusFileInfo={plusFileInfo}/>
         {/*<LeftPanel/>*/}
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>

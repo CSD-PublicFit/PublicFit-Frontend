@@ -61,7 +61,7 @@ inform_list
     ]
   */
 
-export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
+export default function LeftPanel({imageUrl, predictedLocation, inform_list, facilityName, basicFileInfo, plusFileInfo}) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
@@ -69,6 +69,10 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
   // 확인용 콘솔 로그
   console.log("📍 imageUrl:", imageUrl);
   console.log("📍 predictedLocation:", predictedLocation);
+  console.log("📍 inform_list:", inform_list);
+  console.log("📍 facilityName:", facilityName)
+  console.log("📍 basicFileInfo:", basicFileInfo)
+  console.log("📍 plusFileInfo:", plusFileInfo);
 
   return (
     <Container>
