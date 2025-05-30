@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useContext, useState } from "react";
+import useStepStore from "../store/stepStore";
 
 import { mockAnalysisResult } from "../mock/GangWan";
 import { MapDataContext } from "../context/MapDataContext";
@@ -70,7 +71,7 @@ const Explain = styled.p`
   margin-bottom: 5px;
 `;
 
-const Step3 = ({
+const Step3 = (/*{
   facilityName,
   basicFileInfo,
   plusFileInfo,
@@ -78,16 +79,18 @@ const Step3 = ({
   selectedCity, //api 연결때 쓰여용
   isStepCompleted,
   setIsStepCompleted,
-}) => {
+}*/) => {
+  const { isStepCompleted, addStepCompleted, removeStepCompleted, facilityName, basicFileInfo, plusFileInfo, selectedCity, selectedRange} = useStepStore();
   const step3Completed = isStepCompleted.includes(3);
+  
   const {
     setImportantVariables,
     setRegionData,
     setExistingLocation,
     setPredictedLocation,
   } = useContext(MapDataContext);
+
   const [isLoading, setIsLoading] = useState(false);
-  console.log(selectedRange);
 
   /*const handleUploadFile = async () => {
     setIsLoading(true); // 로딩 시작
@@ -100,13 +103,10 @@ const Step3 = ({
         selectedCity: selectedCity,
       }); 
       //-> api 연결용
-      const { regionCoordinates, existingLocations, predictedLocations } =
-        mockAnalysisResult; 
-        // 목업데이터
 
       // result 구조 안에 실제 데이터가 들어 있는 위치
       const analysisResult = result?.data?.analysis_result;
-      console.log("⭐응답은 옴");
+      console.log("⭐응답은 옴"); //디버깅용
 
       if (analysisResult) {
         const {
@@ -127,7 +127,10 @@ const Step3 = ({
       }
 
       // ✅ API 성공 시 step 3 완료 표시 및 설정
-      setIsStepCompleted((prev) => {
+      addStepCompleted(3);
+      console.log("✅ Step3 완료");
+      //옛날코드
+      /*setIsStepCompleted((prev) => {
         const hasStep3 = prev.includes(3);
         if (!hasStep3) {
           console.log("✅ Step3 완료");
@@ -136,12 +139,14 @@ const Step3 = ({
         return prev;
       });
     } catch (error) {
+      removeStepCompleted(3); // 실패 시 step 3 제거
       console.error("분석 실패:", error);
       alert("분석에 실패했습니다.");
     }finally {
     setIsLoading(false); // 로딩 종료
   }
   };*/
+
   const handleUploadFile = async() => {
     setIsLoading(true); // 로딩 시작
   try {
@@ -161,9 +166,10 @@ const Step3 = ({
     setExistingLocation(existingLocations);
     setPredictedLocation(predictedLocations);
 
-    setIsStepCompleted((prev) => (prev.includes(3) ? prev : [...prev, 3]));
+    addStepCompleted(3); // ✅ Step3 완료
   } catch (error) {
     console.error("분석 실패:", error);
+    removeStepCompleted(3); // 실패 시 step 3 제거
     alert("분석에 실패했습니다.");
   } finally {
     setIsLoading(false); // 로딩 종료

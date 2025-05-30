@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect } from "react";
+import useStepStore from "../store/stepStore";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ const SelectBox = styled.select`
   }
 `;
 
-const Step2 = ({
+const Step2 = (/*{
   facilityName,
   setFacilityName,
   selectedRange,
@@ -54,7 +55,25 @@ const Step2 = ({
   selectedCity,
   setSelectedCity,
   setIsStepCompleted,
-}) => {
+}*/) => {
+  const { facilityName, setFacilityName, selectedRange, setSelectedRange, selectedCity, setSelectedCity, addStepCompleted, removeStepCompleted, } = useStepStore();
+
+  useEffect(() => {
+    const isValid =
+      facilityName.trim() !== "" &&
+      selectedRange !== "" &&
+      selectedCity !== "";
+
+    if (isValid) {
+      console.log("✅ Step2 완료");
+      addStepCompleted(2);
+    } else {
+      console.log("❌ Step2 미완료");
+      removeStepCompleted(2);
+    }
+  }, [facilityName, selectedRange, selectedCity, addStepCompleted, removeStepCompleted]);
+
+  /*
   useEffect(() => {
     const isValid =
       facilityName.trim() !== "" && selectedRange !== "" && selectedCity !== "";
@@ -71,7 +90,7 @@ const Step2 = ({
       }
       return prev;
     });
-  }, [facilityName, selectedRange, selectedCity, setIsStepCompleted]);
+  }, [facilityName, selectedRange, selectedCity, setIsStepCompleted]);*/
 
   return (
     <>

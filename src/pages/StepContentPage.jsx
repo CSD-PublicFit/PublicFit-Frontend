@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
+import useStepStore from "../store/stepStore";
 
 import FileUploader from "../components/FileUploader";
 
@@ -13,14 +14,16 @@ const ContentBox = styled.div`
   margin-left: 15px;
 `;
 
-const StepContentPage = ({
+const StepContentPage = (/*{
   currentStep,
   isStepCompleted,
   setIsStepCompleted,
   navigate,
-}) => {
+}*/) => {
+
+  const {currentStep} = useStepStore();
   // Step1
-  const [selectedData, setSelectedData] = useState("basic"); // 데이터 종류에 따른 화면 전환에 필요
+  /*const [selectedData, setSelectedData] = useState("basic"); // 데이터 종류에 따른 화면 전환에 필요
   const [basicFileInfo, setBasicFileInfo] = useState(null); // 기본 데이터 파일
   const [plusFileInfo, setPlusFileInfo] = useState(null); // 중요 변수 데이터 파일
   const [basicFileStatus, setBasicFileStatus] = useState("idle"); // 기본 데이터 파일 상태
@@ -30,52 +33,21 @@ const StepContentPage = ({
   const [facilityName, setFacilityName] = useState(""); // 분석할 공공시설물 이름
   const [selectedRange, setSelectedRange] = useState("100"); // 공공시설물 상권 범위
   const [selectedCity, setSelectedCity] = useState(""); // 예측하고 싶은 시
+  // */
 
   return (
     <ContentBox>
       {currentStep === 1 && (
-        <Step1
-          selectedData={selectedData}
-          setSelectedData={setSelectedData}
-          basicFileInfo={basicFileInfo}
-          setBasicFileInfo={setBasicFileInfo}
-          basicFileStatus={basicFileStatus}
-          setBasicFileStatus={setBasicFileStatus}
-          plusFileInfo={plusFileInfo}
-          setPlusFileInfo={setPlusFileInfo}
-          plusFileStatus={plusFileStatus}
-          setPlusFileStatus={setPlusFileStatus}
-          setIsStepCompleted={setIsStepCompleted}
-        />
+        <Step1/>
       )}
       {currentStep === 2 && (
-        <Step2
-          facilityName={facilityName}
-          setFacilityName={setFacilityName}
-          selectedRange={selectedRange}
-          setSelectedRange={setSelectedRange}
-          selectedCity={selectedCity}
-          setSelectedCity={setSelectedCity}
-          setIsStepCompleted={setIsStepCompleted}
-        />
+        <Step2/>
       )}
       {currentStep === 3 && (
-        <Step3
-          facilityName={facilityName}
-          basicFileInfo={basicFileInfo}
-          plusFileInfo={plusFileInfo}
-          selectedRange={selectedRange}
-          selectedCity={selectedCity}
-          isStepCompleted={isStepCompleted}
-          setIsStepCompleted={setIsStepCompleted}
-        />
+        <Step3/>
       )}
       {currentStep === 4 && (
-      <Step4 
-      facilityName={facilityName}
-      basicFileInfo={basicFileInfo}
-      plusFileInfo={plusFileInfo}
-      />)}
+      <Step4/>)}
     </ContentBox>
   );
 };

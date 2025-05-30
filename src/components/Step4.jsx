@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { useNavigate} from "react-router-dom";
 
 import { MapDataContext } from "../context/MapDataContext";
+import useStepStore from "../store/stepStore";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -71,13 +72,14 @@ const generateStaticMapUrl = (predictedLocations, regionData) => {
   return `${baseUrl}${size}&${maptype}&${visible}&${markers}&${key}`;
 };
 
-const Step4 = ({
+const Step4 = (/*{
   facilityName,
   basicFileInfo,
   plusFileInfo,
-}) => {
+}*/) => {
   const navigate = useNavigate();
   const { regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
+  const {facilityName, basicFileInfo, plusFileInfo} = useStepStore();
 
   const handleReportClick = () => {
     const imageUrl = generateStaticMapUrl(predictedLocation, regionData|| []);
