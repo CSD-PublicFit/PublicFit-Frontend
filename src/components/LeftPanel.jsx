@@ -71,34 +71,36 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list, fac
   console.log("📍 predictedLocation:", predictedLocation);
   console.log("📍 inform_list:", inform_list);
   console.log("📍 facilityName:", facilityName)
-  console.log("📍 basicFileInfo:", basicFileInfo)
-  console.log("📍 plusFileInfo:", plusFileInfo);
+  console.log("📍 basicFileInfo:", basicFileInfo.name)
+  console.log("📍 plusFileInfo:", plusFileInfo.name);
 
   return (
     <Container>
       <BackButton onClick={handleBack}>← 이전페이지</BackButton>
-      {inform_list && (
-      <>
       <Description>
         다음의 데이터들로 <Highlight>분석 결과 레포트</Highlight>를 생성합니다.
       </Description>
       <MainList>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>{inform_list.file_name}</li>
+          <li>{basicFileInfo.name} {plusFileInfo && (<>, {plusFileInfo.name}</>)}</li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>공공시설물: {inform_list.facility_name}</li>
+          <li>공공시설물: {facilityName}</li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
           <li>사용된 변수명:
-            <ul className="sub-list">
-              {inform_list.important_variables.map((variable, index) => (
-                  <li key={index}> {variable}</li>
-                ))}
-            </ul>
+            {inform_list && (
+              <>
+                <ul className="sub-list">
+                  {inform_list.important_variables.map((variable, index) => (
+                    <li key={index}> {variable}</li>
+                  ))}
+                </ul>
+              </>
+            )}
           </li>
         </ListContainer>
         <ListContainer>
@@ -114,8 +116,6 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list, fac
             />
           )}
       </MainList>
-      </>
-      )}
     </Container>
   );
 }
