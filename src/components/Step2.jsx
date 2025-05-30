@@ -77,7 +77,7 @@ const Step2 = ({
     <>
       <TitleContainer>
         <h2 style={{ fontSize: "30px", fontWeight: "700" }}>Step 2.</h2>
-        <NoticeTitle>분석할 공공시설물의 정보를 입력해주세요.</NoticeTitle>
+        <NoticeTitle>입력한 데이터의 공공시설물 정보를 입력해주세요.</NoticeTitle>
       </TitleContainer>
 
       <InputContainer>
@@ -92,7 +92,7 @@ const Step2 = ({
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label>범위 : </label>
+          <label>공공시설물 범위 : </label>
           <SelectBox
             value={selectedRange}
             onChange={(e) => setSelectedRange(e.target.value)}
@@ -105,7 +105,7 @@ const Step2 = ({
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label>지역 : </label>
+          <label>공공시설물 지역 : </label>
           <SelectBox
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}

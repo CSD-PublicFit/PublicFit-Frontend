@@ -36,7 +36,7 @@ const StepPageWrapper = ({ currentStep, setCurrentStep, isStepCompleted }) => {
         {/* 이전 버튼 */}
         <img
           src={currentStep === 1 ? prevDisabled : prevActive}
-          onClick={() => handleStepChange(currentStep - 1)}
+          onClick={currentStep === 1 ? undefined : () => handleStepChange(currentStep - 1)}
           style={{
             width: "35px",
             height: "35px",
@@ -51,7 +51,11 @@ const StepPageWrapper = ({ currentStep, setCurrentStep, isStepCompleted }) => {
           src={
             currentStep === 4 || !isNextAbled() ? nextDisabled : nextActive
           }
-          onClick={() => handleStepChange(currentStep + 1)}
+          onClick={
+    currentStep === 4 || !isNextAbled()
+      ? undefined
+      : () => handleStepChange(currentStep + 1)
+  }
           style={{
             width: "35px",
             height: "35px",
