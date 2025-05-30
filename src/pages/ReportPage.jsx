@@ -1,81 +1,16 @@
-import styled from "styled-components";
-import React, { useState } from "react";
-import "../CSS/ReportPage.css";
-import LeftPanel from "../components/LeftPanel";
-import RightPanel from "../components/RightPanel";
-import TopTitle from "../components/TopTitle"
+import { useNavigate } from "react-router-dom";
 
-import { useLocation } from "react-router-dom";
-
-const TopLine = styled.hr`
-  background-color: #545454;
-  height: 4px;
-  border: none;
-`;
-
-const b64ToBlob = (b64Data, contentType='application/pdf', sliceSize=512) => {
-  const byteCharacters = atob(b64Data);
-  const byteArrays = [];
-
-  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-    const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-    
-  const blob = new Blob(byteArrays, {type: contentType});
-  return blob;
-}
-
-export default function ReportPage({selection_id}) {
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [inform_list, setInformList] = useState(null);
-
-  const location = useLocation();
-  const { imageUrl, predictedLocation, facilityName, basicFileInfo, plusFileInfo } = location.state || {};
-
-
-  const handleGenerateReport = async () => {
-    setLoading(true);
-  
-    try {
-      const response = await fetch("https://bc66-210-94-220-228.ngrok-free.app/api/report/generate?selection_id=7", {
-        method: "POST",
-        headers: {
-          'ngrok-skip-browser-warning' : '69420',
-        }
-      });
-
-      const result = await response.json();
-      const pdfUrl=result["report_pdf"];
-      setResult(URL.createObjectURL(b64ToBlob(pdfUrl)));
-      setInformList(result["report_info"]);
-    } catch (error) {
-      console.error("Error generating report:", error);
-      alert("리포트 생성 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const ReportPage = () => {
+  const navigate = useNavigate(); // 네비게이션 훅 사용
 
   return (
-    <div className="report-page">
-      <TopTitle />
-      <TopLine />
-      <div className="content">
-        {/*<LeftPanel />*/}
-        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation} inform_list={inform_list} facilityName={facilityName} basicFileInfo={basicFileInfo} plusFileInfo={plusFileInfo}/>
-        {/*<LeftPanel/>*/}
-        <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
-      </div>
+    <div>
+      <h1>리포트 페이지</h1>
+      <p>이곳은 리포트 페이지입니다.</p>
+      {/* 뒤로 가기 버튼 추가 */}
+      <button onClick={() => navigate("/")}>뒤로 가기</button>
     </div>
   );
-}
+};
+
+export default ReportPage;
