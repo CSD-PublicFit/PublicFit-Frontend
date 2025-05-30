@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useStepStore from '../store/stepStore';
 
 import StepNumberButton from "../components/StepNumberButton";
@@ -22,9 +20,8 @@ const SelectText = styled.p`
 `;
 
 const StepPage = () => {
-  const navigate = useNavigate();
-  const { currentStep, setCurrentStep, isStepCompleted, setIsStepCompleted } = useStepStore();
-  //디버깅용
+    //디버깅용
+  const {isStepCompleted} = useStepStore();
   console.log("isStepCompleted 상태:", isStepCompleted, "타입:", typeof isStepCompleted);
   console.log("isStepCompleted 배열인가?", Array.isArray(isStepCompleted));
   //const [currentStep, setCurrentStep] = useState(1); // 현재 스텝
@@ -34,12 +31,7 @@ const StepPage = () => {
     <Container>
       <SelectText>다음을 선택해주세요.</SelectText>
       <StepNumberButton/>
-      <StepContentPage
-        currentStep={currentStep}
-        isStepCompleted={isStepCompleted}
-        setIsStepCompleted={setIsStepCompleted}
-        navigate={navigate}
-      />
+      <StepContentPage/>
       <StepPageWrapper/>
     </Container>
   );
