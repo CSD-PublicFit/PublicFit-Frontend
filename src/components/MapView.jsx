@@ -211,6 +211,13 @@ const MapView = () => {
                   <p><strong>위도</strong>: {selectedMarker.lat}</p>
                   <p><strong>경도</strong>: {selectedMarker.lng}</p>
 
+                  {selectedMarker.type === "existing" && (
+                    <>
+                      <p><strong>시설명</strong>: {selectedMarker.name}</p>
+                      <p><strong>주소</strong>: {selectedMarker.address}</p>
+                    </>
+                  )}
+
                   {selectedMarker.type === "predicted" && (
                     <>
                       <p>

@@ -1,6 +1,7 @@
 import { List } from "@react-pdf/renderer";
-import React from "react";
+import { useContext } from "react";
 import styled from "styled-components";
+import { MapDataContext } from "../context/MapDataContext";
 
 const checkGreen = `${window.location.origin}/assets/CheckGreen.png`;
 
@@ -61,10 +62,11 @@ inform_list
     ]
   */
 
-export default function LeftPanel({imageUrl, predictedLocation, inform_list, facilityName, basicFileInfo, plusFileInfo}) {
+export default function LeftPanel({imageUrl, inform_list, facilityName, basicFileInfo, plusFileInfo}) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
+  const { importantVariables, regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
 
   // 확인용 콘솔 로그
   console.log("📍 imageUrl:", imageUrl);
@@ -72,7 +74,8 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list, fac
   console.log("📍 inform_list:", inform_list);
   console.log("📍 facilityName:", facilityName)
   console.log("📍 basicFileInfo:", basicFileInfo.name)
-  console.log("📍 plusFileInfo:", plusFileInfo.name);
+  console.log("📍 plusFileInfo:", plusFileInfo && plusFileInfo.name ? (plusFileInfo.name): ("파일 정보 없음"));
+  console.log("📍 importantVariables:", importantVariables);
 
   return (
     <Container>
@@ -91,15 +94,17 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list, fac
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>사용된 변수명:
-            {inform_list && (
-              <>
-                <ul className="sub-list">
-                  {inform_list.important_variables.map((variable, index) => (
-                    <li key={index}> {variable}</li>
-                  ))}
-                </ul>
-              </>
+          <li>
+            사용된 변수명:
+            {importantVariables && importantVariables.length > 0 && (
+              <ul className="sub-list">
+                {importantVariables.slice(0, 5).map((variable, index) => (
+                  <li key={index}>{variable}</li>
+                ))}
+                {importantVariables.length > 5 && (
+                  <li>외 {importantVariables.length - 5}개 더 있음</li>
+                )}
+              </ul>
             )}
           </li>
         </ListContainer>
@@ -112,7 +117,7 @@ export default function LeftPanel({imageUrl, predictedLocation, inform_list, fac
             <img
               src={imageUrl}
               alt="예측 위치 지도"
-              style={{ width: "100%", borderRadius: "10px", marginBottom: "10px" }}
+              style={{ width: "110%", borderRadius: "10px", marginBottom: "10px" }}
             />
           )}
       </MainList>

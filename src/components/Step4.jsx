@@ -78,14 +78,15 @@ const Step4 = (/*{
   plusFileInfo,
 }*/) => {
   const navigate = useNavigate();
-  const { regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
-  const {facilityName, basicFileInfo, plusFileInfo} = useStepStore();
+  const { importantVariables, regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
+  const { facilityName, basicFileInfo, plusFileInfo = {} } = useStepStore();
 
   const handleReportClick = () => {
     const imageUrl = generateStaticMapUrl(predictedLocation, regionData|| []);
     navigate("/report", {
       state: {
         imageUrl,
+        importantVariables,
         predictedLocation,
         facilityName, 
         basicFileInfo, 
