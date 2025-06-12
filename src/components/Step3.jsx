@@ -92,7 +92,7 @@ const Step3 = (/*{
 
   const [isLoading, setIsLoading] = useState(false);
 
-  /*const handleUploadFile = async () => {
+  const handleUploadFile = async () => {
     setIsLoading(true); // 로딩 시작
     try {
       const result = await uploadFile({
@@ -137,7 +137,7 @@ const Step3 = (/*{
           return [...prev, 3];
         }
         return prev;
-      });
+      });*/
     } catch (error) {
       removeStepCompleted(3); // 실패 시 step 3 제거
       console.error("분석 실패:", error);
@@ -145,9 +145,9 @@ const Step3 = (/*{
     }finally {
     setIsLoading(false); // 로딩 종료
   }
-  };*/
+  };
 
-  const handleUploadFile = async() => {
+  /*const handleUploadFile = async() => {
     setIsLoading(true); // 로딩 시작
   try {
     // 👉 2초 딜레이 (2000ms)
@@ -174,7 +174,7 @@ const Step3 = (/*{
   } finally {
     setIsLoading(false); // 로딩 종료
   }
- };
+ };*/
 
   return (
     <>
