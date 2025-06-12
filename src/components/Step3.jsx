@@ -88,6 +88,7 @@ const Step3 = (/*{
     setRegionData,
     setExistingLocation,
     setPredictedLocation,
+    setSelectionId
   } = useContext(MapDataContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -106,7 +107,9 @@ const Step3 = (/*{
 
       // result 구조 안에 실제 데이터가 들어 있는 위치
       const analysisResult = result?.data?.analysis_result;
-      console.log("⭐응답은 옴"); //디버깅용
+      const selectionId = result?.data?.selection_id;
+      console.log("⭐분석 결과:", analysisResult);
+      console.log("⭐선택 ID:", selectionId); // 디버깅용
 
       if (analysisResult) {
         const {
@@ -120,6 +123,7 @@ const Step3 = (/*{
         setRegionData(regionCoordinates);
         setExistingLocation(existingLocations);
         setPredictedLocation(predictedLocations);
+        setSelectionId(selectionId);
 
         console.log("⭐데이터를 컨텍스트에 다 할당함");
       } else {

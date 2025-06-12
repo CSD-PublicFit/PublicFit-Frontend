@@ -12,20 +12,25 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-`
+
+  height: 100vh; /* 뷰포트 기준으로 고정 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
+  box-sizing: border-box;
+`;
+
 const BackButton = styled.button`
   background: none;
-    border: none;
-    color: #999;
-    font-size: 14px;
-    margin-bottom: 10px;
-    text-align: left;
-    cursor: pointer;
+  border: none;
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 25px;
+  text-align: left;
+  cursor: pointer;
 `
 const Description = styled.p`
   font-size: 18px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   color: #333;
 `
 const Highlight = styled.span`
@@ -42,6 +47,7 @@ const MainList = styled.ul`
 const ListContainer = styled.div`
   display: flex;
   gap: 10px;
+  margin-bottom: 15px;
 `
 const CheckIcon = styled.img`
   width: 20px;
@@ -62,7 +68,7 @@ inform_list
     ]
   */
 
-export default function LeftPanel({imageUrl, inform_list, facilityName, basicFileInfo, plusFileInfo}) {
+export default function LeftPanel({imageUrl, facilityName, basicFileInfo, plusFileInfo}) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
@@ -108,7 +114,6 @@ export default function LeftPanel({imageUrl, inform_list, facilityName, basicFil
                 )}
               </ul>
             )}
-            </ul>
           </li>
         </ListContainer>
         <ListContainer>
@@ -120,7 +125,7 @@ export default function LeftPanel({imageUrl, inform_list, facilityName, basicFil
             <img
               src={imageUrl}
               alt="예측 위치 지도"
-              style={{ width: "110%", borderRadius: "10px", marginBottom: "10px" }}
+              style={{ width: "100%", borderRadius: "10px", marginBottom: "40px" }}
             />
           )}
       </MainList>

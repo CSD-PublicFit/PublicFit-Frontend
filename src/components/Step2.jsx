@@ -111,13 +111,12 @@ const Step2 = (/*{
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label>공공시설물 범위 : </label>
+          <label>공공시설물 범위(m) : </label>
           <SelectBox
             value={selectedRange}
             onChange={(e) => setSelectedRange(e.target.value)}
           >
             <option value="100">100</option>
-            <option value="250">250</option>
             <option value="500">500</option>
             <option value="1000">1000</option>
           </SelectBox>

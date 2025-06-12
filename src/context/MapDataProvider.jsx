@@ -6,6 +6,7 @@ export const MapDataProvider = ({ children }) => {
   const [regionData, setRegionData] = useState(null);
   const [existingLocation, setExistingLocation] = useState(null);
   const [predictedLocation, setPredictedLocation] = useState(null);
+  const [selectionId, setSelectionId] = useState(null);
 
   return (
     <MapDataContext.Provider
@@ -18,6 +19,8 @@ export const MapDataProvider = ({ children }) => {
         setExistingLocation,
         predictedLocation,
         setPredictedLocation,
+        selectionId,
+        setSelectionId
       }}
     >
       {children}
