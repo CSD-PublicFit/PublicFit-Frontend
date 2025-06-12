@@ -34,7 +34,7 @@ const b64ToBlob = (b64Data, contentType='application/pdf', sliceSize=512) => {
   return blob;
 }
 const createReportURL = (selection_id = 0) => {
-  const URL = `/api/proxyReport?selection_id=${selection_id}`;
+  const URL = `${import.meta.env.VITE_API_URL}/api/report/generate?selection_id=${selection_id}`;
   console.log("Request URL:", URL);
   return URL;
 };
@@ -59,8 +59,8 @@ export default function ReportPage({selection_id}) {
       const response = await fetch(createReportURL(selectionId), {
         method: "POST",
         headers: {
-        "Content-Type": "application/json",
-      },
+          'ngrok-skip-browser-warning' : '69420',
+        }
       });
 
       const result = await response.json();
