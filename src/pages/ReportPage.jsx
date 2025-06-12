@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../CSS/ReportPage.css";
 import LeftPanel from "../components/LeftPanel";
 import RightPanel from "../components/RightPanel";
 import TopTitle from "../components/TopTitle"
 
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { MapDataContext } from "../context/MapDataContext";
 
 const TopLine = styled.hr`
   background-color: #545454;
@@ -32,21 +33,30 @@ const b64ToBlob = (b64Data, contentType='application/pdf', sliceSize=512) => {
   const blob = new Blob(byteArrays, {type: contentType});
   return blob;
 }
+const createReportURL = (selection_id = 0) => {
+  const URL = `/api/report/generate?selection_id=${selection_id}`;
+  console.log("Request URL:", URL);
+  return URL;
+};
 
 export default function ReportPage({selection_id}) {
+  const location = useLocation();
+  // location.state가 없으면 바로 redirect (렌더링 자체를 하지 않음)
+  if (!location.state) {
+    return <Navigate to="/" replace />;
+  }
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [inform_list, setInformList] = useState(null);
-
-  const location = useLocation();
-  const { imageUrl, predictedLocation } = location.state || {};
-
+  
+  const { imageUrl, facilityName, basicFileInfo, plusFileInfo } = location.state || {};
+  const {selectionId} = useContext(MapDataContext);
 
   const handleGenerateReport = async () => {
     setLoading(true);
   
     try {
-      const response = await fetch("https://bc66-210-94-220-228.ngrok-free.app/api/report/generate?selection_id=7", {
+      const response = await fetch(createReportURL(selectionId), {
         method: "POST",
         headers: {
           'ngrok-skip-browser-warning' : '69420',
@@ -54,6 +64,7 @@ export default function ReportPage({selection_id}) {
       });
 
       const result = await response.json();
+      console.log("Report Info:", result["report_info"]);
       const pdfUrl=result["report_pdf"];
       setResult(URL.createObjectURL(b64ToBlob(pdfUrl)));
       setInformList(result["report_info"]);
@@ -72,7 +83,7 @@ export default function ReportPage({selection_id}) {
       <TopLine />
       <div className="content">
         {/*<LeftPanel />*/}
-        <LeftPanel imageUrl={imageUrl} predictedLocation={predictedLocation} inform_list={inform_list}/>
+        <LeftPanel imageUrl={imageUrl} facilityName={facilityName} basicFileInfo={basicFileInfo} plusFileInfo={plusFileInfo}/>
         {/*<LeftPanel/>*/}
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>

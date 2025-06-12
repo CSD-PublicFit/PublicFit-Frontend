@@ -1,5 +1,58 @@
-import React from "react";
+import { List } from "@react-pdf/renderer";
+import { useContext } from "react";
+import styled from "styled-components";
+import { MapDataContext } from "../context/MapDataContext";
 
+const checkGreen = `${window.location.origin}/assets/CheckGreen.png`;
+
+const Container = styled.div`
+  width: 35%;
+  padding: 20px 50px;
+  background-color: #E6EAF5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  height: 100vh; /* 뷰포트 기준으로 고정 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
+  box-sizing: border-box;
+`;
+
+const BackButton = styled.button`
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 25px;
+  text-align: left;
+  cursor: pointer;
+`
+const Description = styled.p`
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #333;
+`
+const Highlight = styled.span`
+  font-weight: 700;
+  color: #000;
+`
+const MainList = styled.ul`
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #222;
+`
+const ListContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+`
+const CheckIcon = styled.img`
+  width: 20px;
+  height: 20px;
+`
 /*
 inform_list 
 "facility_name": "공공자전거",
@@ -15,54 +68,67 @@ inform_list
     ]
   */
 
-export default function LeftPanel({imageUrl, predictedLocation, inform_list}) {
+export default function LeftPanel({imageUrl, facilityName, basicFileInfo, plusFileInfo}) {
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
 
-  // 확인용 콘솔 로그
-  console.log("📍 imageUrl:", imageUrl);
-  console.log("📍 predictedLocation:", predictedLocation);
+  const { importantVariables, regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
 
+  // 확인용 콘솔 로그
+  //console.log("📍 imageUrl:", imageUrl);
+  //console.log("📍 predictedLocation:", predictedLocation);
+  //console.log("📍 inform_list:", inform_list);
+  //console.log("📍 facilityName:", facilityName)
+  //console.log("📍 basicFileInfo:", basicFileInfo.name)
+  //console.log("📍 plusFileInfo:", plusFileInfo && plusFileInfo.name ? (plusFileInfo.name): ("파일 정보 없음"));
+  //console.log("📍 importantVariables:", importantVariables);
+
+  
   return (
-    <div className="left-panel">
-      {/* 지도 이미지 확인용 출력 */}
-      {imageUrl && (
-        <img
-          src={imageUrl}
-          alt="예측 위치 지도"
-          style={{ width: "100%", borderRadius: "10px", marginBottom: "10px" }}
-        />
-      )}
-      <button className="back-button" onClick={handleBack}>← 이전페이지</button>
-      {/* 지도 이미지 확인용 출력 */}
-      {imageUrl && (
-        <img
-          src={imageUrl}
-          alt="예측 위치 지도"
-          style={{ width: "100%", borderRadius: "10px", marginBottom: "10px" }}
-        />
-      )}
-      
-      {inform_list && (
-        <>
-        <p className="description">
-            다음의 데이터들로 <span className="highlight">분석 결과 레포트</span>를 생성합니다.
-          </p>
-          <ul className="data-list">
-            <li>✅ {inform_list.file_name}</li>
-            <li>✅ 공공시설물: {inform_list.facility_name}</li>
-            <li>✅ 사용된 변수명:
+    <Container>
+      <BackButton onClick={handleBack}>← 이전페이지</BackButton>
+      <Description>
+        다음의 데이터들로 <Highlight>분석 결과 레포트</Highlight>를 생성합니다.
+      </Description>
+      <MainList>
+        <ListContainer>
+          <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
+          <li><Highlight>사용된 파일</Highlight> : {basicFileInfo.name} {plusFileInfo && (<>, {plusFileInfo.name}</>)}</li>
+        </ListContainer>
+        <ListContainer>
+          <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
+          <li><Highlight>공공시설물명</Highlight> : {facilityName}</li>
+        </ListContainer>
+        <ListContainer>
+          <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
+          <li>
+            사용된 변수명:
+            {importantVariables && importantVariables.length > 0 && (
               <ul className="sub-list">
-                {inform_list.important_variables.map((variable, index) => (
-                  <li key={index}> {variable}</li>
+                {importantVariables.slice(0, 5).map((variable, index) => (
+                  <li key={index}>{variable}</li>
                 ))}
+                {importantVariables.length > 5 && (
+                  <li>외 {importantVariables.length - 5}개 더 있음</li>
+                )}
               </ul>
-            </li>
-            <li>✅ 예측 이미지:</li>
-          </ul>
-          </>
-      )}
-    </div>
+            )}
+          </li>
+        </ListContainer>
+        <ListContainer>
+          <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
+          <li><Highlight>예측 이미지</Highlight> :</li>
+        </ListContainer>
+          {/* 지도 이미지 출력 */}
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt="예측 위치 지도"
+              style={{ width: "100%", borderRadius: "10px", marginBottom: "40px" }}
+            />
+          )}
+      </MainList>
+    </Container>
   );
 }

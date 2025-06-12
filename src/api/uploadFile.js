@@ -15,7 +15,8 @@ export const uploadFile = async ({
   formData.append("selectedCity", selectedCity);
 
   //http://3.36.169.185/api/analysis/start
-  const response = await fetch("https://6932-210-94-220-230.ngrok-free.app/api/analysis/start", {
+  // 프록시 설정함
+  const response = await fetch("/api/analysis/start", {
     method: "POST",
     body: formData,
   });

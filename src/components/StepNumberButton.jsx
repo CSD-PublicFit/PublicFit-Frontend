@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import useStepStore from "../store/stepStore";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -22,9 +23,11 @@ const NumberButton = styled.button`
       : "4px solid #ADADAD"};
 `;
 
-const StepNumberButton = ({ currentStep, isStepCompleted, setCurrentStep }) => {
+const StepNumberButton = () => {
   // selectNumber 대신 currentStep을 바로 사용
   const steps = [1, 2, 3, 4];
+
+  const { currentStep, isStepCompleted} = useStepStore();
 
   return (
     <ButtonContainer>
@@ -33,6 +36,7 @@ const StepNumberButton = ({ currentStep, isStepCompleted, setCurrentStep }) => {
           key={step}
           $nameColor="#6082F0"
           $isSelected={currentStep === step}
+          //$isCompleted={Array.isArray(isStepCompleted) && isStepCompleted.includes(step)}
           $isCompleted={isStepCompleted.includes(step)}
         >
           {step}

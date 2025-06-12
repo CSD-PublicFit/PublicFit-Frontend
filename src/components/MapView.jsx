@@ -2,11 +2,13 @@ import styled from "styled-components";
 import { useContext, useState, useEffect } from "react";
 import {
   GoogleMap,
+  useJsApiLoader,
   LoadScript,
   Polygon,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+
 
 import { MapDataContext } from "../context/MapDataContext";
 
@@ -101,21 +103,21 @@ const MapView = () => {
   // 컨텍스트 잘 전달되는지 확인용 (특히 리젼 데이터 이중배열로 잘 됐는지)
   console.log("Map context:", useContext(MapDataContext));
 
-  useEffect(() => {
-    // 페이지 진입 시 지도 데이터 초기화
-    setImportantVariables([]);
-    setRegionData([]);
-    setExistingLocation([]);
-    setPredictedLocation([]);
-  }, []);
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script", // 고유 ID 설정 (중복 방지)
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"], // 필요시 라이브러리 추가
+    language: "ko", // ✅ 한글로 설정
+  });
+
 
   useEffect(() => {
-    if (map && regionData && regionData.length > 0) {
-      const bounds = new window.google.maps.LatLngBounds();
-      regionData.flat().forEach((coord) => bounds.extend(coord));
-      map.fitBounds(bounds);
-    }
-  }, [map, regionData]);
+  if (isLoaded && map && regionData && regionData.length > 0) {
+    const bounds = new window.google.maps.LatLngBounds();
+    regionData.flat().forEach((coord) => bounds.extend(coord));
+    map.fitBounds(bounds);
+  }
+}, [isLoaded, map, regionData]);
 
   useEffect(() => {
   if (predictedLocation && predictedLocation.length > 0) {
@@ -148,7 +150,7 @@ const MapView = () => {
         </ViewButton>
       </ButtonContainer>
       <MapContainer>
-        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+        {isLoaded && (
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
@@ -200,31 +202,23 @@ const MapView = () => {
                     }
                   />
             ))}
-
-            {/*{viewMode === "predicted" &&
-              predictedLocation &&
-              predictedLocation.map((loc, index) => (
-                <Marker
-                  key={`predicted-${index}`}
-                  position={{ lat: loc.lat, lng: loc.lng }}
-                  onClick={() => setSelectedMarker(loc)}
-                />
-              ))}*/}
-
-            {/* InfoWindow */}
-            {/*selectedMarker && (
+            {selectedMarker && (
               <InfoWindow
                 position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-                onCloseClick={() => setSelectedMarker(null)} // 닫기 버튼
+                onCloseClick={() => setSelectedMarker(null)}
               >
                 <div>
-                  <p>
-                    <strong>위도</strong>: {selectedMarker.lat}
-                  </p>
-                  <p>
-                    <strong>경도</strong>: {selectedMarker.lng}
-                  </p>
-                  {"attractiveness_score" in selectedMarker && (
+                  <p><strong>위도</strong>: {selectedMarker.lat}</p>
+                  <p><strong>경도</strong>: {selectedMarker.lng}</p>
+
+                  {selectedMarker.type === "existing" && (
+                    <>
+                      <p><strong>시설명</strong>: {selectedMarker.name}</p>
+                      <p><strong>주소</strong>: {selectedMarker.address}</p>
+                    </>
+                  )}
+
+                  {selectedMarker.type === "predicted" && (
                     <>
                       <p>
                         <strong>설치매력도</strong>:{" "}
@@ -233,44 +227,16 @@ const MapView = () => {
                       <p>
                         <strong>설치추천순위</strong>: {selectedMarker.rank}위
                       </p>
-                      <p>
+                      {/*<p>
                         <strong>중요변수</strong>:{" "}
                         {selectedMarker.importantVariance.join(", ")}
-                      </p>
+                      </p>*/}
                     </>
                   )}
                 </div>
               </InfoWindow>
-            )*/}
-            {selectedMarker && (
-  <InfoWindow
-    position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-    onCloseClick={() => setSelectedMarker(null)}
-  >
-    <div>
-      <p><strong>위도</strong>: {selectedMarker.lat}</p>
-      <p><strong>경도</strong>: {selectedMarker.lng}</p>
-
-      {selectedMarker.type === "predicted" && (
-        <>
-          <p>
-            <strong>설치매력도</strong>:{" "}
-            {selectedMarker.attractiveness_score.toLocaleString()}
-          </p>
-          <p>
-            <strong>설치추천순위</strong>: {selectedMarker.rank}위
-          </p>
-          {/*<p>
-            <strong>중요변수</strong>:{" "}
-            {selectedMarker.importantVariance.join(", ")}
-          </p>*/}
-        </>
-      )}
-    </div>
-  </InfoWindow>
-)}
-          </GoogleMap>
-        </LoadScript>
+            )}
+          </GoogleMap>)}
       </MapContainer>
     </Container>
   );

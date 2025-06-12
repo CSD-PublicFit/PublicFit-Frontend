@@ -27,7 +27,7 @@ export default function RightPanel({ loading, onGenerate, result }) {
       <p className="note">📄 본 레포트는 ChatGPT의 도움을 받아 작성됩니다.</p>
       <button className="report-button" onClick={onGenerate} disabled={loading || result} 
       style={{
-          backgroundColor: result ? "#4ade80" : "#E6EAF5",
+          backgroundColor: result ? "#008c25" : "#E6EAF5",
           color: result ? "white" : "#5B7EF0"}}
           >
         {result ? "레포트 작성완료" : "레포트 작성하기"}

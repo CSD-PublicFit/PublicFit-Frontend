@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { useNavigate} from "react-router-dom";
 
 import { MapDataContext } from "../context/MapDataContext";
+import useStepStore from "../store/stepStore";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -71,16 +72,25 @@ const generateStaticMapUrl = (predictedLocations, regionData) => {
   return `${baseUrl}${size}&${maptype}&${visible}&${markers}&${key}`;
 };
 
-const Step4 = () => {
+const Step4 = (/*{
+  facilityName,
+  basicFileInfo,
+  plusFileInfo,
+}*/) => {
   const navigate = useNavigate();
-  const { regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
+  const { importantVariables, regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
+  const { facilityName, basicFileInfo, plusFileInfo = {} } = useStepStore();
 
   const handleReportClick = () => {
     const imageUrl = generateStaticMapUrl(predictedLocation, regionData|| []);
     navigate("/report", {
       state: {
         imageUrl,
+        importantVariables,
         predictedLocation,
+        facilityName, 
+        basicFileInfo, 
+        plusFileInfo,  
       },
     });
   };
@@ -92,11 +102,6 @@ const Step4 = () => {
         <h2 style={{ fontSize: "30px", fontWeight: "700" }}>Step 4.</h2>
         <NoticeTitle>분석결과를 레포트로 만들어보세요.</NoticeTitle>
       </TitleContainer>
-      <ReportButtonContainer>
-        <ReportButton onClick={() => navigate("/report")}>
-          결과 레포트 확인 / 저장
-        </ReportButton>
-      </ReportButtonContainer>
       <ReportButtonContainer>
         <ReportButton onClick={handleReportClick}>
           결과 레포트 확인 / 저장

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
+import useStepStore from "../store/stepStore";
 
 import FileUploader from "./FileUploader";
 
@@ -64,7 +65,7 @@ const Explain = styled.p`
   margin-bottom: 5px;
 `;
 
-const Step1 = ({
+const Step1 = (/*{
   selectedData,
   setSelectedData,
   basicFileInfo,
@@ -76,8 +77,23 @@ const Step1 = ({
   plusFileStatus,
   setPlusFileStatus,
   setIsStepCompleted,
-}) => {
+}*/) => {
+
+  const { addStepCompleted, removeStepCompleted, selectedData, setSelectedData, basicFileInfo, setBasicFileInfo, basicFileStatus, setBasicFileStatus, plusFileInfo, setPlusFileInfo, plusFileStatus, setPlusFileStatus} = useStepStore();
+
   useEffect(() => {
+    const isValid =
+      basicFileStatus === "valid" &&
+      (plusFileStatus === "idle" || (plusFileInfo && plusFileStatus === "valid"));
+
+    if (isValid) {
+      addStepCompleted(1);  // ✅ 조건 만족 → 추가
+    } else {
+      removeStepCompleted(1);  // ❌ 조건 불만족 → 제거
+    }
+  }, [basicFileStatus, plusFileInfo, plusFileStatus, addStepCompleted, removeStepCompleted]);
+
+  /*useEffect(() => {
     const isValid =
       basicFileStatus === "valid" &&
       (plusFileStatus === "idle" ||
@@ -95,7 +111,7 @@ const Step1 = ({
       }
       return prev; // 변화 없음
     });
-  }, [basicFileStatus, plusFileInfo, plusFileStatus, setIsStepCompleted]);
+  }, [basicFileStatus, plusFileInfo, plusFileStatus, setIsStepCompleted]);*/
 
   return (
     <>

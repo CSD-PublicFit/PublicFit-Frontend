@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect } from "react";
+import useStepStore from "../store/stepStore";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ const SelectBox = styled.select`
   }
 `;
 
-const Step2 = ({
+const Step2 = (/*{
   facilityName,
   setFacilityName,
   selectedRange,
@@ -54,7 +55,25 @@ const Step2 = ({
   selectedCity,
   setSelectedCity,
   setIsStepCompleted,
-}) => {
+}*/) => {
+  const { facilityName, setFacilityName, selectedRange, setSelectedRange, selectedCity, setSelectedCity, addStepCompleted, removeStepCompleted, } = useStepStore();
+
+  useEffect(() => {
+    const isValid =
+      facilityName.trim() !== "" &&
+      selectedRange !== "" &&
+      selectedCity !== "";
+
+    if (isValid) {
+      console.log("✅ Step2 완료");
+      addStepCompleted(2);
+    } else {
+      console.log("❌ Step2 미완료");
+      removeStepCompleted(2);
+    }
+  }, [facilityName, selectedRange, selectedCity, addStepCompleted, removeStepCompleted]);
+
+  /*
   useEffect(() => {
     const isValid =
       facilityName.trim() !== "" && selectedRange !== "" && selectedCity !== "";
@@ -71,13 +90,13 @@ const Step2 = ({
       }
       return prev;
     });
-  }, [facilityName, selectedRange, selectedCity, setIsStepCompleted]);
+  }, [facilityName, selectedRange, selectedCity, setIsStepCompleted]);*/
 
   return (
     <>
       <TitleContainer>
         <h2 style={{ fontSize: "30px", fontWeight: "700" }}>Step 2.</h2>
-        <NoticeTitle>분석할 공공시설물의 정보를 입력해주세요.</NoticeTitle>
+        <NoticeTitle>입력한 데이터의 공공시설물 정보를 입력해주세요.</NoticeTitle>
       </TitleContainer>
 
       <InputContainer>
@@ -92,20 +111,19 @@ const Step2 = ({
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label>범위 : </label>
+          <label>공공시설물 범위(m) : </label>
           <SelectBox
             value={selectedRange}
             onChange={(e) => setSelectedRange(e.target.value)}
           >
             <option value="100">100</option>
-            <option value="250">250</option>
             <option value="500">500</option>
             <option value="1000">1000</option>
           </SelectBox>
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label>지역 : </label>
+          <label>공공시설물 지역 : </label>
           <SelectBox
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
