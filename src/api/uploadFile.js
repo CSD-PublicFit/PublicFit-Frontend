@@ -16,8 +16,11 @@ export const uploadFile = async ({
 
   //http://3.36.169.185/api/analysis/start
   // 프록시 설정함
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/analysis/start`, {
+  const response = await fetch(`/api/proxyAnalysis`, {
     method: "POST",
+    headers: {
+    "Content-Type": "application/json",
+  },
     body: formData,
   });
 
