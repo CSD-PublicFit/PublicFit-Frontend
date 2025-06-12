@@ -18,9 +18,6 @@ export const uploadFile = async ({
   // 프록시 설정함
   const response = await fetch(`/api/proxyAnalysis`, {
     method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-  },
     body: formData,
   });
 
