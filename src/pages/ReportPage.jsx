@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from "styled-components";
 import React, { useState, useContext, useEffect } from "react";
 import "../CSS/ReportPage.css";
@@ -75,9 +76,15 @@ export default function ReportPage({selection_id}) {
       setLoading(false);
     }
   };
+=======
+import { useNavigate } from "react-router-dom";
+>>>>>>> main
 
+const ReportPage = () => {
+  const navigate = useNavigate(); // 네비게이션 훅 사용
 
   return (
+<<<<<<< HEAD
     <div className="report-page">
       <TopTitle />
       <TopLine />
@@ -87,6 +94,15 @@ export default function ReportPage({selection_id}) {
         {/*<LeftPanel/>*/}
         <RightPanel loading={loading} onGenerate={handleGenerateReport} result={result}/>
       </div>
+=======
+    <div>
+      <h1>리포트 페이지</h1>
+      <p>이곳은 리포트 페이지입니다.</p>
+      {/* 뒤로 가기 버튼 추가 */}
+      <button onClick={() => navigate("/")}>뒤로 가기</button>
+>>>>>>> main
     </div>
   );
-}
+};
+
+export default ReportPage;
