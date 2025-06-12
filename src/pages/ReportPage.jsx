@@ -33,6 +33,13 @@ const b64ToBlob = (b64Data, contentType='application/pdf', sliceSize=512) => {
   return blob;
 }
 
+const createReportURL = (selection_id=0) => {
+  var URL = "https://9512-210-94-220-229.ngrok-free.app"; //baseURL
+  URL+="/api/report/generate?selection_id=" + String(selection_id);
+  console.log(URL);
+  return URL
+}
+
 export default function ReportPage({selection_id}) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -46,7 +53,7 @@ export default function ReportPage({selection_id}) {
     setLoading(true);
   
     try {
-      const response = await fetch("https://bc66-210-94-220-228.ngrok-free.app/api/report/generate?selection_id=7", {
+      const response = await fetch(createReportURL(selection_id), {
         method: "POST",
         headers: {
           'ngrok-skip-browser-warning' : '69420',

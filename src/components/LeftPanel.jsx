@@ -7,7 +7,7 @@ const checkGreen = `${window.location.origin}/assets/CheckGreen.png`;
 
 const Container = styled.div`
   width: 35%;
-  padding: 40px 50px;
+  padding: 20px 50px;
   background-color: #E6EAF5;
   display: flex;
   flex-direction: column;
@@ -18,14 +18,14 @@ const BackButton = styled.button`
     border: none;
     color: #999;
     font-size: 14px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     text-align: left;
     cursor: pointer;
 `
 const Description = styled.p`
   font-size: 18px;
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #333;
 `
 const Highlight = styled.span`
@@ -66,17 +66,19 @@ export default function LeftPanel({imageUrl, inform_list, facilityName, basicFil
   const handleBack = () => {
     history.back(); // 브라우저 뒤로 가기
   };
+
   const { importantVariables, regionData, predictedLocation } = useContext(MapDataContext); // 위치 정보 가져오기
 
   // 확인용 콘솔 로그
-  console.log("📍 imageUrl:", imageUrl);
-  console.log("📍 predictedLocation:", predictedLocation);
-  console.log("📍 inform_list:", inform_list);
-  console.log("📍 facilityName:", facilityName)
-  console.log("📍 basicFileInfo:", basicFileInfo.name)
-  console.log("📍 plusFileInfo:", plusFileInfo && plusFileInfo.name ? (plusFileInfo.name): ("파일 정보 없음"));
-  console.log("📍 importantVariables:", importantVariables);
+  //console.log("📍 imageUrl:", imageUrl);
+  //console.log("📍 predictedLocation:", predictedLocation);
+  //console.log("📍 inform_list:", inform_list);
+  //console.log("📍 facilityName:", facilityName)
+  //console.log("📍 basicFileInfo:", basicFileInfo.name)
+  //console.log("📍 plusFileInfo:", plusFileInfo && plusFileInfo.name ? (plusFileInfo.name): ("파일 정보 없음"));
+  //console.log("📍 importantVariables:", importantVariables);
 
+  
   return (
     <Container>
       <BackButton onClick={handleBack}>← 이전페이지</BackButton>
@@ -86,11 +88,11 @@ export default function LeftPanel({imageUrl, inform_list, facilityName, basicFil
       <MainList>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>{basicFileInfo.name} {plusFileInfo && (<>, {plusFileInfo.name}</>)}</li>
+          <li><Highlight>사용된 파일</Highlight> : {basicFileInfo.name} {plusFileInfo && (<>, {plusFileInfo.name}</>)}</li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>공공시설물: {facilityName}</li>
+          <li><Highlight>공공시설물명</Highlight> : {facilityName}</li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
@@ -106,11 +108,12 @@ export default function LeftPanel({imageUrl, inform_list, facilityName, basicFil
                 )}
               </ul>
             )}
+            </ul>
           </li>
         </ListContainer>
         <ListContainer>
           <CheckIcon src={checkGreen} alt="Check" className="check-icon" />
-          <li>예측 이미지:</li>
+          <li><Highlight>예측 이미지</Highlight> :</li>
         </ListContainer>
           {/* 지도 이미지 출력 */}
           {imageUrl && (
